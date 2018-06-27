@@ -1,0 +1,262 @@
+{template 'common/header'}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=sM0LiGPo1tLGs7bqh82MSrgKo04ehVYk"></script>
+<style>
+	#cover{
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+}
+#cover-bg{
+    width: 100%;
+    height: 100%;
+    background-color: #aaa;
+    opacity: 0.7;
+    -webkit-opacity: 0.7;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cover-content{
+    /*background-color: #009900;*/
+    z-index: 8;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+}
+
+</style>
+<ul class="nav nav-tabs">  
+    <div class="container-fluid">
+	    <div class="navbar-header">
+	       <ul id="myTab" class="nav nav-pills" role="tablist">
+			    <li class="active"><a href="#bulletin" role="tab" data-toggle="pill">审批状态</a></li>
+			    <!-- <li><a href="#rule" role="tab" data-toggle="pill">录入商品信息</a></li> -->
+			</ul>
+	    </div>
+    </div>
+</ul>
+<a class="btn" href="javascript:history.go(-1)">
+	            <i class="iconfont icon-fanhui" style="font-size: 20px;"> 返 回</i>
+	        </a>
+	        <a class="btn" href="{php echo $this->createMobileUrl('Personal',array('op' => 'display'))}">
+	            <i class="iconfont icon-fanhui" style="font-size: 20px;margin-left:140px; ">个人中心</i>
+	        </a>
+<div class="panel panel-default">
+    <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+	    <div class="tab-pane fade in active" id="bulletin">
+			<div class="main">
+	<div class="panel panel-info">
+	<div class="panel-heading">详情</div>
+		
+	</div>
+</div>
+	    	<table class="table"  id="tables">
+			    <thead>
+			      <tr>
+			      	<th style="text-align: center">用户名</th>
+                    <th style="text-align: center">申请时间</th>
+                    <th style="text-align: center">状态</th>
+			        <th style="text-align: center">操作</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      
+			      	<tr>
+						<td style="text-align: center">{$sset['user']}</td>
+						<th style="text-align: center">
+						{if $sset['shtime'] == ''}
+						<span></span>
+						{else}
+							{php echo date('Y-m-d',$sset['shtime'])}
+						{/if}
+
+						</th>
+						<td style="text-align: center">
+							{if $sset['status'] == '0'}
+							<span class="label label-success">审核中</span>
+							{elseif $sset['status'] =='1'}
+							<span class="label label-success">已通过</span>
+							{elseif $sset['status'] == '2'}
+							<span class="label label-success">驳回</span>
+							{elseif $sset['status'] == '3'}
+							<span class="label label-success">被拉黑</span>
+							{/if}
+
+						</td>
+			      		<td style="text-align: center">
+			      			{if $sset['status'] == '0'}
+							<a href="{php echo $this->createMobileUrl('Jindu', array('op'=>'add', 'sid'=>$sset['sid']));}"><button type="button" class="btn btn-info" >加速审核</button></a>
+							{elseif $sset['status'] == '2'}
+
+
+							<a href=""><button type="button" class="btn btn-primary" id="cha">查看原因</button></a>
+
+							{elseif $sset['status'] == '3'}
+
+							<a href=""><button type="button" class="btn btn-warning" id="cha">查看原因</button></a>
+							<a href="{php echo $this->createMobileUrl('Jindu', array('op'=>'adds', 'sid'=>$sset['sid']));}"><button type="button" class="btn btn-info" >增加通过率</button></a>
+							{elseif $sset['status'] == '1'}
+							<button type="button" class="btn btn-primary">审核通过</button>
+
+
+							{/if}
+
+			      		</td>
+			      		<div id="cover">
+					    <div id="cover-bg"></div>
+					    <div id="cover-content" style="color:blue;">
+						<form action="">
+						用户名：<input type="text" value="{$row['user']}"></br>
+						电 话：<input type="text" value="{$row['phone']}"></br>
+						原 因:<input type="text" value="{$row['role']}"></br>
+						
+						
+						</form>
+
+
+
+				    </div>
+				    </div>
+
+			      		
+			      		
+			      	</tr>
+	
+			    </tbody>
+			</table>
+			{$pager}
+	    </div>
+
+
+</div>
+
+
+
+
+<script>
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		$('#form').submit(function(){
+			if($('input[name="pname"]').val() == ''){
+				util.message('请填写商品名称');
+				return false;
+			}
+
+			 var reg = /^[0-9]*$/;
+			if(!reg.test($('input[name="inventory"]').val())){
+				util.message('请填写正确的库存');
+				return false;
+			}
+			
+			var cost = parseFloat($('input[name="pmoney"]').val());
+			if(isNaN(cost)){
+				util.message('请填写商品价格.');
+				return false;
+			}
+			return true;
+		});
+	});
+});
+</script>
+
+
+<script>
+	$("#clid").blur(function(){
+		clid = $("#clid").val();
+		//alert(clid);
+		checkcardText = $("#checkcardText");
+		$.ajax({
+                    type:"get",
+                    data:"clid="+clid,
+                    url:"{php echo $this->createWebUrl('Box',array('op'=>'checkclidtwo'))}",
+                    dataType:'text',
+                    success:function(res){
+						//alert(res);
+						if(res == 1){
+							//alert("开柜成功");
+							checkcardText.html("该编号已经被使用");
+							checkcardText.css("color","red");
+							return false;
+						}else{
+							checkcardText.html("该编号可以使用");
+							checkcardText.css("color","green");
+							return false;
+
+						}
+                    },
+                    error:function(){
+                        alert("error!");
+                    },
+                    complete:function(){
+                        //alert("over");
+                    
+					}
+                })
+
+	
+	})
+
+//检测数据库云柜别号
+$("#clids").blur(function(){
+	clids = $("#clids").val();
+	//alert(clid);
+	checkcardTexts = $("#checkcardTexts");
+	$.ajax({
+                    type:"get",
+                    data:"clids="+clids,
+                    url:"{php echo $this->createWebUrl('Box',array('op'=>'checkclidtwos'))}",
+                    dataType:'text',
+                    success:function(res){
+						//alert(res);
+						if(res == 1){
+							//alert("开柜成功");
+							checkcardTexts.html("该别号已经被使用");
+							checkcardTexts.css("color","red");
+							return false;
+						}else{
+							checkcardTexts.html("该别号可以使用");
+							checkcardTexts.css("color","green");
+							return false;
+
+						}
+                    },
+                    error:function(){
+                        alert("error!");
+                    },
+                    complete:function(){
+                        //alert("over");
+                    
+					}
+                })
+
+	
+	})
+</script>
+<script>
+$(function(){
+    $("#cha").click(function(e){
+        e.preventDefault();
+        $("#cover").css("display","block");
+        $("#cover").animate({
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0"
+        },800);
+        $("#cover-content").animate({
+            width: "300px",
+            height: "300px",
+        },800);
+    });
+    $("#cover-bg").click(function(){
+        $("#cover").removeAttr("style");
+        $("#cover-content").removeAttr("style");
+    });
+});
+</script>
+{template 'common/footer'}
+

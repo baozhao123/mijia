@@ -1,0 +1,75 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op == 'display'} class="active"{/if}><a href="{php echo $this->createWebUrl('memberlist', array('op' => 'display'))}">会员管理</a></li>
+</ul>
+<style>
+	.label{line-height: 2}
+	.danger{position: relative}
+</style>
+{if $op == 'display'}
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" id="form">
+			
+			<input type="hidden" name="do" value="display">
+			<input type="hidden" name="token" value="{$_W['token']}">
+			
+			
+			<!-- <div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">卡号</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="cardsn" value="{$_GPC['cardsn']}" />
+				</div>
+			</div> -->
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名/手机号</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="keyword" value="{$_GPC['keyword']}" />
+				</div>
+				<div class="pull-right col-xs-12 col-sm-3 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-body table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="text-align: center">序号</th>
+				<th style="text-align: center">姓名</th>
+				<th style="text-align: center">手机号</th>
+				<th style="text-align: center">申请时间</th>	
+			</tr>
+		</thead>
+		{loop $res $key $row}
+			<tr>
+				<td style="text-align: center">{php echo $key}</td>
+				<td style="text-align: center">
+					{$row['name']}
+					
+				</td>
+				<td style="text-align: center">
+					{$row['phone']}
+					
+				</td>
+				
+				<td style="text-align: center">{$row['atime']}</td>
+
+				
+			</tr>
+		{/loop}
+	</table>
+</div>
+</div>
+{$pager}
+
+
+
+
+
+
+{/if}

@@ -1,0 +1,370 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('Templetlist', array('op' => 'display'))}">幻灯片列表</a></li>
+	<li {if $op == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('Templetlist', array('op' => 'add'))}">添加幻灯片</a></li>
+	<li {if $op == 'edit'}class="active"{/if}><a href="{php echo $this->createWebUrl('Templetlist', array('op' => 'edit'))}">精品列表</a></li>
+	<li {if $op == 'mmt'}class="active"{/if}><a href="{php echo $this->createWebUrl('Templetlist', array('op' => 'mmt'))}">添加精品</a></li>
+	<li {if $op == 'dds'}class="active"{/if}><a href="{php echo $this->createWebUrl('Templetlist', array('op' => 'adds'))}">每周更新</a></li>
+	<li {if $op == 'mmd'}class="active"{/if}><a href="{php echo $this->createWebUrl('Templetlist', array('op' => 'mmd'))}">添加每周更新</a></li>
+</ul>
+<style>
+	.label{line-height: 2}
+	.danger{position: relative}
+</style>
+
+
+{if $op == 'display'}
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="get" class="form-horizontal" role="form" id="form">
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">录入时间</label>
+				<div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+					
+
+					{php echo tpl_form_field_daterange('time', array('starttime' => date('Y-m-d', $starttime), 'endtime' => date('Y-m-d', $endtime),));}
+				</div>
+			</div>
+			<!-- <div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">卡号</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="cardsn" value="{$_GPC['cardsn']}" />
+				</div>
+			</div> -->
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="keyword" value="{$_GPC['keyword']}" />
+				</div>
+				<div class="pull-right col-xs-12 col-sm-3 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-body table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="text-align: center">序号</th>
+				<th style="text-align: center">标题</th>
+				<th style="text-align: center">图片</th>	
+				<th style="text-align: center">录入时间</th>				
+				<th style="text-align: center">状态</th>
+				<th style="text-align: center" class="text-right">操作</th>
+			</tr>
+		</thead>
+		{loop $row $key $res}
+			<tr>
+				<td style="text-align: center">{php echo $key}</td>
+				<td style="text-align: center">
+					{$res['title']}
+					
+				</td>
+				<td style="text-align: center">
+					<img src=" {php echo tomedia($res['pic']);}" alt="" style="height: 50px;width: 80px">
+					
+				</td>	
+				<td style="text-align: center">{php echo date('Y-m-d H:i:s',$res['ttime'])}</td>
+				
+				<td style="text-align: center">
+						<?php if($res['status']==0){ ?>
+						<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mda', 'tid'=>$res['tid']));}"><button type="button" class="btn btn-danger">点击启用</button></a>
+						<?php }else{ ?>
+						<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mdb', 'tid'=>$res['tid']));}"><button type="button" class="btn btn-info">点击禁用</button></a>
+						
+						<?php } ?>
+				</td>
+				<td class="text-right">
+					<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mdr', 'tid'=>$res['tid']));}"><button type="button" class="btn btn-info" id="cha">修改</button></a>
+				
+				</td>
+					
+			</tr>
+		{/loop}
+	</table>
+</div>
+</div>
+{$pager}
+
+{elseif $op == 'add'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" >
+		<!-- <input type="hidden" name="op" value="add"> -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				幻灯片设置：所有幻灯片长宽请保持一致，推荐大小：1080*500
+			</div>
+			<div class="panel-body">
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id='advname' name="name" class="form-control" value="" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $adv['thumb'])}
+					</div>
+				</div>
+				 
+				<!-- <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否显示</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='enabled' value=1' {if $adv['enabled']==1}checked{/if} /> 是
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='enabled' value=0' {if $adv['enabled']==0}checked{/if} /> 否
+						</label>
+					</div>
+				</div> -->
+			</div>
+		</div>
+<div class="form-group col-sm-12">
+	<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+	<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+	</form>
+</div>
+
+
+{elseif $op == 'edit'}
+
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="get" class="form-horizontal" role="form" id="form">
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">录入时间</label>
+				<div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+					
+
+					{php echo tpl_form_field_daterange('time', array('starttime' => date('Y-m-d', $starttime), 'endtime' => date('Y-m-d', $endtime),));}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="keyword" value="{$_GPC['keyword']}" />
+				</div>
+				<div class="pull-right col-xs-12 col-sm-3 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-body table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="text-align: center">序号</th>
+				<th style="text-align: center">标题</th>
+				<th style="text-align: center">图片</th>	
+				<th style="text-align: center">录入时间</th>				
+				<th style="text-align: center">状态</th>
+				<th style="text-align: center" class="text-right">操作</th>
+			</tr>
+		</thead>
+		{loop $row $key $rows}
+			<tr>
+				<td style="text-align: center">{php echo $key}</td>
+				<td style="text-align: center">
+					{$rows['title']}
+					
+				</td>
+				<td style="text-align: center">
+					<img src=" {php echo tomedia($rows['pic']);}" alt="" style="height: 50px;width: 80px">
+					
+				</td>	
+				<td style="text-align: center">{php echo date('Y-m-d H:i:s',$rows['atime'])}</td>
+				<td style="text-align: center">
+						<?php if($rows['status']==0){ ?>
+						<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mdc', 'tid'=>$rows['tid']));}"><button type="button" class="btn btn-danger">点击启用</button></a>
+						<?php }else{ ?>
+						<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mddd', 'tid'=>$rows['tid']));}"><button type="button" class="btn btn-info">点击禁用</button></a>
+						
+						<?php } ?>
+				</td>
+				<td class="text-right">
+					<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mdg', 'tid'=>$rows['tid']));}"><button type="button" class="btn btn-info" id="chaa">修改</button></a>
+				
+				</td>
+				 		
+			</tr>
+		{/loop}
+	</table>
+</div>
+</div>
+{$pager}
+
+
+
+{elseif $op == 'mmt'}
+
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" >
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				精品图片设置：所图片长宽请保持一致，推荐大小：1044*338
+			</div>
+			<div class="panel-body">
+
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">精品标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id='advname' name="title" class="form-control" value="{$adv['advname']}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">精品图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $adv['thumb'])}
+					</div>
+				</div>
+				 
+			
+			</div>
+		</div>
+<div class="form-group col-sm-12">
+	<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+	<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+	</form>
+</div>
+
+
+{elseif $op == 'adds'}
+
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="get" class="form-horizontal" role="form" id="form">
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">录入时间</label>
+				<div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+					
+
+					{php echo tpl_form_field_daterange('time', array('starttime' => date('Y-m-d', $starttime), 'endtime' => date('Y-m-d', $endtime),));}
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="keyword" value="{$_GPC['keyword']}" />
+				</div>
+				<div class="pull-right col-xs-12 col-sm-3 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-body table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="text-align: center">序号</th>
+				<th style="text-align: center">标题</th>
+				<th style="text-align: center">简介</th>
+				<th style="text-align: center">图片</th>	
+				<th style="text-align: center">录入时间</th>				
+				<th style="text-align: center">状态</th>
+				<th style="text-align: center" class="text-right">操作</th>
+			</tr>
+		</thead>
+		{loop $row $key $r}
+			<tr>
+				<td style="text-align: center">{php echo $key}</td>
+				<td style="text-align: center">
+					{$r['title']}
+					
+				</td>
+				<td style="text-align: center">
+					{$r['tname']}
+					
+				</td>
+				<td style="text-align: center">
+					<img src=" {php echo tomedia($r['pic']);}" alt="" style="height: 50px;width: 80px">
+					
+				</td>	
+				<td style="text-align: center">{php echo date('Y-m-d H:i:s',$r['ttime'])}</td>
+				
+				<td style="text-align: center">
+						<?php if($r['status']==0){ ?>
+						<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mde', 'tid'=>$r['tid']));}"><button type="button" class="btn btn-danger">点击启用</button></a>
+						<?php }else{ ?>
+						<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mdf', 'tid'=>$r['tid']));}"><button type="button" class="btn btn-info">点击禁用</button></a>
+						
+						<?php } ?>
+				</td>
+				<td class="text-right">
+					<a href="{php echo $this->createWebUrl('Templetlist', array('op'=>'mdh', 'tid'=>$r['tid']));}"><button type="button" class="btn btn-info" id="chab">修改</button></a>
+				
+				</td>
+				      		
+			</tr>
+		{/loop}
+	</table>
+</div>
+</div>
+{$pager}
+
+
+{elseif $op == 'mmd'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" >
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				每周更新设置：所图片长宽请保持一致，推荐大小：170*205
+			</div>
+			<div class="panel-body">
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">每周更新标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id='advname' name="title" class="form-control" value="{$adv['advname']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">每周更新简介</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id='advname' name="name" class="form-control" value="{$adv['advname']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">每周更新图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $adv['thumb'])}
+					</div>
+				</div>
+				 
+				
+			</div>
+		</div>
+<div class="form-group col-sm-12">
+	<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+	<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+	</form>
+</div>
+
+
+
+
+{/if}
+{template 'common/footer'}

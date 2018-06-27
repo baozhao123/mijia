@@ -1,0 +1,217 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('Vending', array('op' => 'display'))}">认证列表</a></li>
+	<li {if $op == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('Vending', array('op' => 'add'))}">支付宝查询</a></li>
+	
+</ul>
+<style>
+	.label{line-height: 2}
+	.danger{position: relative}
+</style>
+<style>
+	.label{line-height: 2}
+	.danger{position: relative}
+</style>
+<style>
+	#cover{
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+}
+#cover-bg{
+    width: 100%;
+    height: 100%;
+    background-color: #00FFFF;
+    opacity: 0.7;
+    -webkit-opacity: 0.7;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cover-content{
+    /*background-color: #009900;*/
+    z-index: 8;
+    position: absolute;
+    top: 10%;
+    left: 40%;
+}
+
+</style>
+
+{if $op == 'display'}
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="get" class="form-horizontal" role="form" id="form">
+			
+			<!-- <div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">录入时间</label>
+				<div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+					
+
+					{php echo tpl_form_field_daterange('time', array('starttime' => date('Y-m-d', $starttime), 'endtime' => date('Y-m-d', $endtime),));}
+				</div>
+			</div>-->
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" placeholder="请输入用户名或者电话号码" name="keyword" value="{$_GPC['keyword']}" />
+				</div>
+				<div class="pull-right col-xs-12 col-sm-3 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-body table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="text-align: center">姓名</th>
+				<th style="text-align: center">电话</th>	
+				<th style="text-align: center">电话服务码</th>
+				<th style="text-align: center">支付宝账号</th>
+				<th style="text-align: center">银行卡</th>
+				<th style="text-align: center">身份证号</th>
+				<!-- <th style="text-align: center">正面</th>
+				<th style="text-align: center">反面</th> -->
+				
+				<th style="text-align: center">过申时间</th>
+				<th style="text-align: center">申请时间</th>
+				<th style="text-align: center">状态</th>			
+				<th style="text-align: center">操作</th>
+			</tr>
+		</thead>
+		{loop $row $key $res}
+			<tr>
+				<td style="text-align: center">{$res['user']}</td>
+				<td style="text-align: center">
+					{$res['phone']}
+					
+				</td>
+				<td style="text-align: center">{$res['phonede']}</td>
+				<td style="text-align: center">{$res['zhifu']}</td>
+				<td style="text-align: center">{$res['yinhang']}</td>
+				<td style="text-align: center">{$res['shen']}</td>
+				<td style="text-align: center">
+					<?php if($res['stime']== ''){ ?>
+							<span>还未过审</span>
+					<?php }else{ ?>
+
+							{php echo date('Y-m-d H:i:s',$res['shtime'])}
+
+					<?php } ?>
+				</td>
+
+				<td style="text-align: center">{php echo date('Y-m-d H:i:s',$res['shtime'])}</td>
+				
+
+				<td style="text-align: center">
+				{if $res['status'] == '0'}
+				<span class="label label-success">申请</span>
+				 {elseif $res['status'] == '1'}
+				 <span class="label label-success">通过</span>
+				{elseif $res['status'] == '2'}
+					<span class="label label-success">驳回</span>
+				{/if}
+				</td>
+				<td class="text-right">
+					<a href="{php echo $this->createWebUrl('Vending', array('op'=>'mda', 'sid'=>$res['sid'],'phone'=>$res['phone']));}"><button type="button" class="btn btn-primary">点击通过</button></a>
+						<a href="{php echo $this->createWebUrl('Vending', array('op'=>'mdb', 'sid'=>$res['sid'],'phone'=>$res['phone']));}" ><button type="button" class="btn btn-inverse">审核驳回</button></a>
+						<a href="{php echo $this->createWebUrl('Vending', array('op'=>'mdc', 'sid'=>$res['sid']));}" ><button type="button" class="btn btn-danger">不良用户</button></a>
+					<a href=""><button type="button" class="btn btn-info" id="cha">查看详情</button></a>
+				
+				</td>
+					
+			</tr>
+			
+				<div id="cover">
+					    <div id="cover-bg"></div>
+					    <div id="cover-content" style="color:blue;">
+						<form action="" method="post">
+						<input type="hidden" name="op" value="mde">
+						<input type="hidden" name="adid" value="{$row['adid']}">
+						姓 名:<input type="text" value="{$res['user']}" name="name" disabled="disabled" style="width:500px;height:40px;font-size:20px; "></br>
+						
+						电 话:<input type="text" name="phone" style="width:500px;height:40px;margin-bottom:20px;font-size:20px; " value="{$res['phone']}"></br>
+						电话服务号:<input type="text"  name="phone" style="width:500px;height:40px;margin-bottom:20px;font-size:20px; " value="{$res['phonede']}"></br>
+						支付宝:<input type="text"  name="phone" style="width:500px;height:40px;margin-bottom:20px;font-size:20px; " value="{$res['zhifu']}"></br>
+						银行卡号:<input type="text"  name="phone" style="width:500px;height:40px;margin-bottom:20px;font-size:20px; " value="{$res['yinhang']}"></br>
+						身份证正面:<img src=" {php echo tomedia($res['qq'].$res['pic1']);}" alt="" style="margin-top: 10px;height:100px;"></br>
+						身份证反面：<img src=" {php echo tomedia($res['qq'].$res['pic2']);}" alt="" style="margin-top: 10px;height:100px;"></br>
+						头 像：<img src=" {php echo tomedia($res['qq'].$res['pic']);}" alt="" style="margin-top: 10px;height:100px;"></br>
+						
+						</form>
+
+
+
+				    </div>
+				    </div>
+
+
+
+
+
+		{/loop}
+	</table>
+</div>
+</div>
+{$pager}
+
+<script>
+$(function(){
+    $("#cha").click(function(e){
+        e.preventDefault();
+        $("#cover").css("display","block");
+        $("#cover").animate({
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0"
+        },800);
+        $("#cover-content").animate({
+            width: "300px",
+            height: "300px",
+        },800);
+    });
+    $("#cover-bg").click(function(){
+        $("#cover").removeAttr("style");
+        $("#cover-content").removeAttr("style");
+    });
+});
+</script>
+
+{elseif $op == 'add'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" >
+		<!-- <input type="hidden" name="op" value="add"> -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				请准确的填写客户信息
+			</div>
+			<div class="panel-body">
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付宝账号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id='' name="zhifu" class="form-control" value="" />
+					</div>
+				</div>
+				
+			</div>
+		</div>
+<div class="form-group col-sm-12">
+	<input type="submit" name="submit" value="点击查询" class="btn btn-primary col-lg-1" />
+	<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+	</form>
+</div>
+
+{/if}
+{template 'common/footer'}

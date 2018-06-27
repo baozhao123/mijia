@@ -1,0 +1,41 @@
+{template 'common/header'}
+
+    <script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery.min.js">   </script>
+    <script type="text/javascript" src="{MODULE_URL}template/mobile/js/layer.js">   </script>
+      <link rel="stylesheet" href="{MODULE_URL}template/mobile/need/layer.css">
+
+    <body id='insert'>
+     
+    </body>
+
+<script>
+	// alert(1111111);
+  layer.open({
+    content: '你要关注微信公众号才能哦！！！'
+    ,btn: ['关注', '不要']
+    ,yes: function(index){
+
+// <img src=" {php echo tomedia($adv['er']);}" style="height:200px;width: 200px">
+  
+      document.getElementById("insert").innerHTML='<img src="{$urls}"  class="img-responsive center-block" height="50%" width="50%" /> <div style="text-align:center">长按扫码关注{$mmt}</div>';
+   
+      parent.layer.close(index);
+    } ,no: function(index){
+     // location.reload();
+      window.parent.layer.close(index);
+    }
+    
+  });
+
+	 
+</script>
+
+
+
+
+
+ 
+
+
+
+{template 'common/footer'}

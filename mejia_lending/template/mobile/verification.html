@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>密码找回</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <script src="{MODULE_URL}template/mobile/js/rem.js"></script>
+    <script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-1.4.2.min.js"></script> 
+    <script src="{MODULE_URL}template/mobile/js/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/slick/slick.css"/>
+<script type="text/javascript">
+	$(window).load(function(){
+		$(".loading").addClass("loader-chanage")
+		$(".loading").fadeOut(300)
+	})
+</script>
+</head>
+<!--loading页开始-->
+<div class="loading">
+	<div class="loader">
+        <div class="loader-inner pacman">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+	</div>
+</div>
+<!--loading页结束-->
+	<body>
+		<div class="reset clearfloat">
+
+		<form action="{php echo $this->createMobileUrl('Login',array('op' => 'ddmy'))}" method="post">
+		<input type="hidden" name="op" value="ddmy">
+		<input type="hidden" name="token" value="{$_W['token']}">
+
+			<div class="top clearfloat box-s">
+				<a class="btn" href="javascript:history.go(-1)">
+		            <i class="iconfont icon-fanhui"></i>返回
+		        </a>
+			</div>
+			<div class="content clearfloat">
+				<p class="tit">密码找回</p>
+				<div class="list clearfloat">
+					<ul>
+						<li>
+							<i class="iconfont icon-shouji fl db"></i>
+							<input type="text" name="phone" id="phone" value="" placeholder="手机号" class="fl" />
+						</li>
+						<li>
+							<i class="iconfont icon-yanzhengma fl db"></i>
+							<input type="text" name="codey" id="dynamicPWD" placeholder="验证码" class="fl yzheng" />
+							
+					</ul>
+						<!-- <input id="btnSendCode" type="button" value="点击获取验证码" onclick="sendMessage()" style="margin-right:20px;height: 40px;background: #90EE90;color:white;font-size:20px " class="login-btn" /> -->
+				</div>				
+			</div>
+			<div style="text-align: center">
+				<a href="javascript:void(0)" id="ynamicLogon"><button id="code-btn" style="background-color:#90EE90;width:285px;height: 35px;color: white;font-size: 20px">点击获取验证码</button>
+					
+				</a>
+			</div>
+			<div class="login-btn">
+				<a href="javascript:void(0)">
+					<input type="submit" name="submit" value="下 一 步" style="font-size:20px;width:80%">
+				</a>
+			</div>
+			</form>
+		</div>
+	</body>
+	 <script>
+      
+var code = ""; //接收验证码   
+$('#code-btn').click(function(){
+  var count = 60;
+    var phone=$("#phone").val();//手机号码  
+    // alert(phone);
+    var reg_phone = /1\d{10}/;
+    if(!reg_phone.test(phone)){   //验证手机是否符合格式
+        alert("手机号格式不正确");
+        return false;
+    } 
+    //开始计时  
+    $("#code-btn").attr('disabled','disabled');  
+    $("#code-btn").html("倒计时" + count + "秒");  
+    var timer = setInterval(function(){  
+      count--;
+      $("#code-btn").html("倒计时" + count + "秒"); 
+      if (count==0) {
+        clearInterval(timer);
+        $("#code-btn").attr("disabled",false);//启用按钮  
+        $("#code-btn").html("重新发送验证码");
+        code = "";//清除验证码。如果不清除，过时间后，输入收到的验证码依然有效 
+      }
+    },1000);
+
+    //向后台发送处理数据 
+     $.post("{php echo $this->createMobileUrl('Login',array('op' => 'mem'))}",{phone:phone
+		         },function(data){
+		          
+			          if(data==1){
+			            alert("短信发送成功");
+			          
+			          }else{
+			          	alert("短信发送失败");
+			          }
+		        });
+    // $.ajax({  
+    //     type: "POST", //用POST方式传输  
+    //     dataType: "text", //数据格式:JSON  
+    //     url: "{php echo $this->createMobileUrl('Zhuce',array('op' => 'add'))}", //目标地址  
+    //     data: "phone=" + phone + "&code=" + code,  
+    //     error: function (XMLHttpRequest, textStatus, errorThrown) { },  
+    //     success: function (msg){ }  
+    // });
+});  
+
+</script>
+
+</html>

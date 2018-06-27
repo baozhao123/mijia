@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="">
+	
+	<application setting='false'>
+		<name><![CDATA[微借贷审核管理]]></name>
+
+		<identifie><![CDATA[mejia_lending]]></identifie>
+
+		<version><![CDATA[1.0.9]]></version>
+
+		<ability><![CDATA[微借贷审核管理]]></ability>
+
+		<type><![CDATA[biz]]></type>
+
+		<description><![CDATA[贷款申请管理,审核收费提成,真正做到贷款审批商业模式下的营收]]></description>
+
+		<author><![CDATA[mejia]]></author>
+
+		<url><![CDATA[]]></url>
+
+		<setting><![CDATA[]]></setting>
+
+	</application>
+
+	
+	<platform>
+		<handles>
+
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="merchant_order" />
+			<message type="click" />
+			<message type="user_get_card" />
+			<message type="user_del_card" />
+			<message type="user_consume_card" />
+		</handles>
+
+		<rule embed="false" />
+
+		<rule embed="false" />
+
+	<supports>
+
+			<item type="app" />
+	</supports>
+
+	</platform>
+
+	
+	<bindings>
+		<cover>
+			<entry title="首页" do="index" state="" direct="false" />
+			<entry title="管理者注册" do="Admins" state="" direct="false" />
+
+		</cover>
+		<menu>
+			<entry title="参数设置" do="product" state="" direct="false" />
+			<entry title="资格管理" do="door" state="" direct="false" />
+			<entry title="认证管理" do="vending" state="" direct="false" />
+			<entry title="黑户管理" do="blacklist" state="" direct="false" />
+			<entry title="项目订单" do="orderlist" state="" direct="false" />
+			<entry title="合同管理" do="customer" state="" direct="false" />
+			<entry title="管理员列表" do="adminlist" state="" direct="false" />
+			<entry title="到期催还" do="overtime" state="" direct="false" />
+			<entry title="放款记录" do="recharge" state="" direct="false" />
+			<entry title="还款记录" do="rodger" state="" direct="false" />
+			<entry title="公告管理" do="gong" state="" direct="false" />
+			<entry title="幻灯片管理" do="templetlist" state="" direct="false" />
+			<entry title="项目管理" do="order" state="" direct="false" />
+			<entry title="额度审核" do="edulist" state="" direct="false" />
+			<entry title="会员列表" do="userlist" state="" direct="false" />
+		</menu>
+
+	</bindings>
+
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_admin` (
+  `aid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pass` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `atime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `openid` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT '0',
+  PRIMARY KEY (`aid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_admins` (
+  `sid` int(11) NOT NULL AUTO_INCREMENT,
+  `aid` int(11) DEFAULT NULL,
+  `user` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `site` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `qq` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `hao` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `shen` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证号',
+  `phonede` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '手机号服务密码',
+  `zhifu` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '支付宝账号',
+  `yinhang` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '银行卡号',
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证正面照片',
+  `pic1` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证反面照片',
+  `pic2` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '面部照片',
+  `uniacid` int(11) DEFAULT NULL,
+  `stime` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '完善信息的时间',
+  `shtime` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '申请的时间',
+  `status` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否审核通过',
+  PRIMARY KEY (`sid`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_duanxin` (
+  `moid` int(11) NOT NULL AUTO_INCREMENT,
+  `appkey` varchar(255) DEFAULT NULL,
+  `tplid` int(11) DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `motime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`moid`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_edu` (
+  `edid` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` int(11) DEFAULT NULL,
+  `edu` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '客户的额度',
+  `shijian` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '持续的天数',
+  `jiasu` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否加速',
+  `qianshu` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '加速付款状态',
+  `status` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否放款状态',
+  `edtime` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `lilv` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '人工核算的利率',
+  `edtimes` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '审核完成时间',
+  `edstatus` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否已经放款的判断',
+  `fangkuantime` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '放款的时间',
+  `oid` int(11) DEFAULT NULL,
+  `tatus` int(11) DEFAULT NULL,
+  PRIMARY KEY (`edid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_gong` (
+  `gid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `one` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
+  `two` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `gtime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`gid`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_hetong` (
+  `heid` int(11) NOT NULL AUTO_INCREMENT,
+  `edid` int(11) DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `hetimeq` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '人工算的起时间',
+  `hetimez` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '后台人工算的止时间',
+  `shens` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `users` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `edus` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '借多少',
+  `hetime` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '签订时间',
+  `hestatus` int(11) DEFAULT NULL COMMENT '审批状态',
+  `uniacid` int(11) DEFAULT NULL,
+  `url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`heid`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_huankuan` (
+  `huid` int(11) NOT NULL AUTO_INCREMENT,
+  `names` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `hutime` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `shenfen` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `heid` int(11) DEFAULT NULL,
+  `edid` int(11) DEFAULT NULL,
+  `oid` int(11) DEFAULT NULL,
+  `edums` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `oname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `hstatus` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `tid` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`huid`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_member` (
+  `adid` int(11) NOT NULL AUTO_INCREMENT,
+  `openid` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '管理员的openid',
+  `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `status` varchar(25) CHARACTER SET utf8 DEFAULT NULL COMMENT '0是申请1是审核通过',
+  `mtime` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `tatus` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`adid`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_order` (
+  `oid` int(11) NOT NULL AUTO_INCREMENT,
+  `oname` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '项目名字',
+  `bill` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '项目资格的价格',
+  `start` varchar(255) CHARACTER SET utf8 DEFAULT '' COMMENT '开始时间',
+  `otime` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '添加的时间',
+  `pico` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '缩略图',
+  `jian` varchar(5000) CHARACTER SET utf8 DEFAULT NULL COMMENT '富文本说明',
+  `uniacid` int(11) DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '上架下架',
+  `end` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '结束时间',
+  PRIMARY KEY (`oid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_product` (
+  `pid` int(11) NOT NULL AUTO_INCREMENT,
+  `forcegz` varchar(255) CHARACTER SET utf8 DEFAULT '0' COMMENT '关注控制字段',
+  `uniacid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`pid`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_templetlist` (
+  `tid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `ttime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `tname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`tid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_templetlist1` (
+  `tid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `ttime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `tname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`tid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_templetlist2` (
+  `tid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `tname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `ttime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`tid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_yuanyin` (
+  `bhid` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` int(11) DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `shen` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `role` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `statuss` int(11) DEFAULT NULL COMMENT '1是驳回2是拉黑原因',
+  `uniacid` int(11) DEFAULT NULL,
+  `bhtime` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`bhid`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_zige` (
+  `zid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `sid` int(11) DEFAULT NULL COMMENT '连接admins表',
+  `uniacid` int(11) DEFAULT NULL,
+  `ztime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `statusz` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '申请的状态',
+  `aid` int(11) DEFAULT NULL COMMENT '连接admin表',
+  `oid` int(11) DEFAULT NULL COMMENT '连接的是order表',
+  `tid` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `fees` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL COMMENT '付款用户的id',
+  PRIMARY KEY (`zid`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+
+		]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_admin` (
+  `aid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pass` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `atime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `openid` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT '0',
+  PRIMARY KEY (`aid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_admins` (
+  `sid` int(11) NOT NULL AUTO_INCREMENT,
+  `aid` int(11) DEFAULT NULL,
+  `user` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `site` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `qq` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `hao` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `shen` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证号',
+  `phonede` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '手机号服务密码',
+  `zhifu` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '支付宝账号',
+  `yinhang` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '银行卡号',
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证正面照片',
+  `pic1` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证反面照片',
+  `pic2` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '面部照片',
+  `uniacid` int(11) DEFAULT NULL,
+  `stime` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '完善信息的时间',
+  `shtime` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '申请的时间',
+  `status` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否审核通过',
+  PRIMARY KEY (`sid`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_duanxin` (
+  `moid` int(11) NOT NULL AUTO_INCREMENT,
+  `appkey` varchar(255) DEFAULT NULL,
+  `tplid` int(11) DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `motime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`moid`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_edu` (
+  `edid` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` int(11) DEFAULT NULL,
+  `edu` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '客户的额度',
+  `shijian` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '持续的天数',
+  `jiasu` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否加速',
+  `qianshu` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '加速付款状态',
+  `status` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否放款状态',
+  `edtime` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `lilv` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '人工核算的利率',
+  `edtimes` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '审核完成时间',
+  `edstatus` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否已经放款的判断',
+  `fangkuantime` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '放款的时间',
+  `oid` int(11) DEFAULT NULL,
+  `tatus` int(11) DEFAULT NULL,
+  PRIMARY KEY (`edid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_gong` (
+  `gid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `one` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
+  `two` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `gtime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`gid`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_hetong` (
+  `heid` int(11) NOT NULL AUTO_INCREMENT,
+  `edid` int(11) DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `hetimeq` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '人工算的起时间',
+  `hetimez` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '后台人工算的止时间',
+  `shens` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `users` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `edus` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '借多少',
+  `hetime` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '签订时间',
+  `hestatus` int(11) DEFAULT NULL COMMENT '审批状态',
+  `uniacid` int(11) DEFAULT NULL,
+  `url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`heid`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_huankuan` (
+  `huid` int(11) NOT NULL AUTO_INCREMENT,
+  `names` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `hutime` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `shenfen` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `heid` int(11) DEFAULT NULL,
+  `edid` int(11) DEFAULT NULL,
+  `oid` int(11) DEFAULT NULL,
+  `edums` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `oname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `hstatus` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `tid` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`huid`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_member` (
+  `adid` int(11) NOT NULL AUTO_INCREMENT,
+  `openid` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '管理员的openid',
+  `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `status` varchar(25) CHARACTER SET utf8 DEFAULT NULL COMMENT '0是申请1是审核通过',
+  `mtime` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `tatus` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`adid`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_order` (
+  `oid` int(11) NOT NULL AUTO_INCREMENT,
+  `oname` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '项目名字',
+  `bill` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '项目资格的价格',
+  `start` varchar(255) CHARACTER SET utf8 DEFAULT '' COMMENT '开始时间',
+  `otime` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '添加的时间',
+  `pico` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '缩略图',
+  `jian` varchar(5000) CHARACTER SET utf8 DEFAULT NULL COMMENT '富文本说明',
+  `uniacid` int(11) DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '上架下架',
+  `end` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '结束时间',
+  PRIMARY KEY (`oid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_product` (
+  `pid` int(11) NOT NULL AUTO_INCREMENT,
+  `forcegz` varchar(255) CHARACTER SET utf8 DEFAULT '0' COMMENT '关注控制字段',
+  `uniacid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`pid`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_templetlist` (
+  `tid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `ttime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `tname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`tid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_templetlist1` (
+  `tid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `ttime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `tname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`tid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_templetlist2` (
+  `tid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `tname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `uniacid` int(11) DEFAULT NULL,
+  `ttime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`tid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_yuanyin` (
+  `bhid` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` int(11) DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `shen` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `role` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `statuss` int(11) DEFAULT NULL COMMENT '1是驳回2是拉黑原因',
+  `uniacid` int(11) DEFAULT NULL,
+  `bhtime` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`bhid`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ims_mijia_lending_zige` (
+  `zid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `sid` int(11) DEFAULT NULL COMMENT '连接admins表',
+  `uniacid` int(11) DEFAULT NULL,
+  `ztime` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `statusz` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '申请的状态',
+  `aid` int(11) DEFAULT NULL COMMENT '连接admin表',
+  `oid` int(11) DEFAULT NULL COMMENT '连接的是order表',
+  `tid` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `fees` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL COMMENT '付款用户的id',
+  PRIMARY KEY (`zid`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+
+		]]></upgrade>
+</manifest>

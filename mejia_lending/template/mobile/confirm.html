@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>购买资格</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <script src="{MODULE_URL}template/mobile/js/rem.js"></script> 
+    <script src="{MODULE_URL}template/mobile/js/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/slick/slick.css"/>
+<script type="text/javascript">
+	$(window).load(function(){
+		$(".loading").addClass("loader-chanage")
+		$(".loading").fadeOut(300)
+	})
+</script>
+</head>
+<!--loading页开始-->
+<div class="loading">
+	<div class="loader">
+        <div class="loader-inner pacman">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+	</div>
+</div>
+<!--loading页结束-->
+	<body>
+		<!--header star-->
+		<header class="mui-bar mui-bar-nav" id="header">
+			<a class="btn" href="javascript:history.go(-1)">
+	            <i class="iconfont icon-fanhui"></i>
+	        </a>
+	        <div class="top-sch-box top-sch-boxtwo flex-col">
+	                      确认信息
+	        </div>
+	    </header>
+	    <!--header end-->
+	    
+	    <div class="warp warptwo clearfloat">
+	    	<div class="confirm clearfloat">
+	    		<div class="lie clearfloat">
+					<a href="detail.html">
+						<div class="tu clearfloat fl">
+							<img src="{php echo tomedia($data['pico']);}"/>
+						</div>
+					</a>
+					<div class="right clearfloat fl">
+						<a href="detail.html">
+							<p class="tit over">{$data['oname']}</p>
+							<p class="fu-tit">人工审核！快速,高效,放款快！</p>
+						</a>
+						<div class="xia clearfloat">
+							<a href="detail.html">
+								<p class="jifen fl over">{$data['bill']}元资格权限</p>
+							</a>
+							<span class="fr db">×1</span>
+						</div>
+					</div>
+				</div>
+
+		     	<div class="gmshu clearfloat box-s fl">
+					<p class="fr">共1件商品   合计<samp>￥{$data['bill']}</samp></p>	     		
+		     	</div>
+	    	</div>
+	    </div>	    
+	    
+		<!--settlement star-->
+	    <div class="settlement clearfloat">
+	    	<div class="zuo clearfloat fl box-s">
+	    		共<span>1</span>件  总金额：<span>￥{$data['bill']}</span>
+	    	</div>
+	    	<a href="{php echo $this->createMobileUrl('Pays',array('op' => 'display','oid' => $data['oid'],'fill' => $data['bill'],'oname' => $data['oname']))}" class="fl db">
+	    		支 付
+	    	</a>
+	    </div>
+	    <!--settlement end-->
+	    
+	<!--footer star-->
+		<footer class="page-footer fixed-footer" id="footer">
+			<ul>
+				<li class="active">
+					<a href="{php echo $this->createMobileUrl('Index',array('op' => 'display'))}">
+						<i class="iconfont icon-shouye"></i>
+						<p>首页</p>
+					</a>
+				</li>
+				<li style="margin-left: 50px">
+					<a href="{php echo $this->createMobileUrl('Index',array('op' => 'mmt'))}" class="">
+	                <span><img src="{MODULE_URL}template/mobile/ers/images/about.png"/></span>
+	                <p>关于我们</p>
+            </a>
+				</li>
+				<li style="margin-left: 35px">
+					<a href="{php echo $this->createMobileUrl('Personal',array('op' => 'display'))}">
+						<i class="iconfont icon-yonghuming"></i>
+						<p>个人中心</p>
+					</a>
+				</li>
+			</ul>
+		</footer>
+		<!--footer end-->
+	</body>
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js" ></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/others.js"></script>
+	<script type="text/javascript" src="js/hmt.js" ></script>
+	<script src="slick/slick.js" type="text/javascript" ></script>
+	<!--插件-->
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<script src="js/swiper.jquery.min.js"></script>
+</html>

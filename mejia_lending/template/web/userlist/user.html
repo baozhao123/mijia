@@ -1,0 +1,142 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op == 'display'} class="active"{/if}>会员列表</li>
+</ul>
+<style>
+	.label{line-height: 2}
+	.danger{position: relative}
+</style>
+<style>
+	#cover{
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+}
+#cover-bg{
+    width: 100%;
+    height: 100%;
+    background-color: #00FFFF;
+    opacity: 0.7;
+    -webkit-opacity: 0.7;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cover-content{
+    /*background-color: #009900;*/
+    z-index: 8;
+    position: absolute;
+    top: 10%;
+    left: 40%;
+}
+
+</style>
+{if $op == 'display'}
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="get" class="form-horizontal" role="form" id="form">
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员状态</label>
+				<div class="col-sm-8 col-xs-12">
+					<div class="btn-group">
+						<a href="{php echo filter_url('status:-1');}" class="btn {if $status == '-1'}btn-primary{else}btn-default{/if}">不限</a>
+						<a href="{php echo filter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">关注</a>
+						<a href="{php echo filter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">未关注</a>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">卡号</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="cardsn" value="{$_GPC['cardsn']}" />
+				</div>
+			</div> -->
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名/手机号</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="keyword" value="{$_GPC['keyword']}" />
+				</div>
+				<div class="pull-right col-xs-12 col-sm-3 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-body table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="text-align: center">昵称</th>
+				<th style="text-align: center">手机号</th>	
+				<th style="text-align: center">申请时间</th>
+				<th style="text-align: center">是否关注</th>
+			</tr>
+		</thead>
+		{loop $res $key $row}
+			<tr>
+				<td style="text-align: center">
+					{$row['name']}
+					
+				</td>
+				<td style="text-align: center">
+							{$row['phone']}
+				</td>	
+				<td style="text-align: center">{php echo date('Y-m-d H:i:s',$row['atime'])}</td>
+				<td style="text-align: center">
+					<?php if($row['status']== 0){ ?>
+					<span class="label label-success">未关注</span>
+						
+						<?php }else{ ?>
+
+					<span class="label label-success">已关注</span>
+						
+						<?php } ?>
+				</td>
+				
+				
+			      		
+			</tr>
+		{/loop}
+	</table>
+</div>
+</div>
+{$pager}
+
+
+
+
+
+	
+	
+<script>
+$(function(){
+    $("#cha").click(function(e){
+        e.preventDefault();
+        $("#cover").css("display","block");
+        $("#cover").animate({
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0"
+        },800);
+        $("#cover-content").animate({
+            width: "300px",
+            height: "300px",
+        },800);
+    });
+    $("#cover-bg").click(function(){
+        $("#cover").removeAttr("style");
+        $("#cover-content").removeAttr("style");
+    });
+});
+</script>
+
+
+{/if}

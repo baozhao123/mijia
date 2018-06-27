@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>登录</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery.min.js"></script>
+    <script type="text/javascript" src="{MODULE_URL}template/mobile/js/amazeui.js"></script>
+	 <script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-1.4.2.min.js"></script>
+    <script src="{MODULE_URL}template/mobile/js/rem.js"></script> 
+    <script src="{MODULE_URL}template/mobile/js/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/slick/slick.css"/>
+<script type="text/javascript">
+	$(window).load(function(){
+		$(".loading").addClass("loader-chanage")
+		$(".loading").fadeOut(300)
+	})
+</script>
+</head>
+<!--loading页开始-->
+<div class="loading">
+	<div class="loader">
+        <div class="loader-inner pacman">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+	</div>
+</div>
+<!--loading页结束-->
+	<body>
+		<div class="login clearfloat box-s">
+			<form action="{php echo $this->createMobileUrl('Login',array('op' => 'edits'))}" method="post">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<!-- <input type="hidden" name="op" value="edit"> -->
+			<h3>会员登录</h3>
+			<div class="list clearfloat">
+				
+				<ul>
+					<li class="ra3">
+						<p class="fl clearfloat">
+							<span class="opa5"></span>
+							<i class="iconfont icon-yonghuming"></i>
+						</p>
+						<div class="nr clearfloat fl">
+							<!-- <span class="opa3"></span> -->
+							<input type="text" name="name" id="name" value="" placeholder="用户姓名" />
+						</div>
+					</li>
+					<li class="ra3">
+						<p class="fl clearfloat">
+							<span class="opa5"></span>
+							<i class="iconfont icon-mima"></i>
+						</p>
+						<div class="nr clearfloat fl">
+							<!-- <span class="opa3"></span> -->
+							<input type="password" name="pass" id="pass" value="" placeholder="登录密码" />
+						</div>
+					</li>
+					<li class="ra3">
+						<p class="fl clearfloat">
+							<span class="opa5"></span>
+							<i class="iconfont icon-yanzhengma"></i>
+						</p>
+						<div class="nr nrtwo clearfloat fl">
+							
+						    <input name="code" type="text" class="form-control" placeholder="请输入验证码" style="width:65%;display:inline;">
+							<img src="/web/index.php?c=utility&a=code&" class="img-rounded" style="cursor:pointer; width:30%;height: 70%" onclick="this.src='/web/index.php?c=utility&a=code&' + Math.random();" />
+						  </div>
+					</li>
+				</ul>
+			</div>
+			<div class="mima clearfloat">
+				<ul>
+					<li class="fl">
+						<div class="xuan clearfloat fl">
+		    				<div class="radiofour" > 
+							    <label>
+							        <input type="checkbox" name="" value="" />
+							        <div class="option"></div>
+							        <span class="opt-text">记住密码</span>
+							    </label>
+							</div>
+		    			</div>
+					</li>
+					<li class="fr">
+						<a href="{php echo $this->createMobileUrl('Login',array('op' => 'msm'))}">找回密码？</a>
+					</li>
+				</ul>
+			</div>
+			
+			 <input type="hidden" name="token" value="{$_W['token']}">
+			<div class="login-btn">
+					
+				<a href="javascript:(0)"> 
+					<input type="submit" class="btn btn-info btn-block" name="submit" value="登 录" style="font-size:20px;width: 90%;height: 35px">
+				</a>
+				<a href="{php echo $this->createMobileUrl('Zhuce',array('op' => 'display'))}" class="btn">
+					<span class="opa5"></span>
+					<samp>注册</samp>
+				</a>
+			</div>
+			</form>
+		</div>
+		<!-- <script>
+	var name = document.getElementById('name');
+
+	name.onblur = function(){
+			//获取值
+			var name = this.value;
+			alert(name);
+			$.post("{php echo $this->createMobileUrl('Login',array('op' => 'add'))}",{name:name
+		         },function(data){
+		          
+			          if(data==1){
+
+			           
+			          }else {
+			          	alert("用户名不正确,请重新填写！");
+			          }
+		        });
+		}
+	
+	var pass = document.getElementById('pass');
+	pass.onblur = function(){
+			//获取值
+			var pass = this.value;
+			$.post("{php echo $this->createMobileUrl('Login',array('op' => 'add'))}",{pass:pass
+		         },function(data){
+		          
+			          if(data==1){
+			            // alert("密码正确");
+			          }else {
+			          	alert("密码不正确,请重新填写！");
+			          }
+		        });
+		}
+</script> -->
+	</body>
+	
+</html>

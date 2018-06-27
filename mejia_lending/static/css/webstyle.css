@@ -1,0 +1,208 @@
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+	border-top: 0px;
+}
+/* 清除浮动 */
+.clear:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.main{
+	min-height: 665px;
+}
+/*导航*/
+.nav .nav-tabs{
+	border-bottom: 1px solid #42ca44;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #FFF;
+    background-color: #42ca44;
+    border-color: #42ca44;
+}
+
+.active a{
+	font-size: 14px;
+	color: #FFFFFF;
+}
+
+/*table样式*/
+	tr{border-bottom: 1px solid #66CCFF;}
+	th{
+		font-size: 17px;
+	}
+	tr>td,tr>td>a{
+		overflow: hidden;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+	}
+	.th1{width: 3%;}
+	.th2{width: 4%;}
+	.th3{width: 10%;}
+	.th4{width: 10%;}
+	.th5{width: 17%;}
+	.th6{width: 8%;}
+	
+	/*修改分组a标签样式*/
+.xgsort a{
+	display: inline-block;
+	color: black;
+	width: 100%;
+}
+.xgsort a:hover{
+	color: red;
+}
+
+/*按钮标签*/
+.label-success,.label-danger,.label-info,.label-warning{
+	display: inline-block;
+	width:60px;
+	height: 30px;
+	padding: 2px 3px;
+	line-height: 26px;
+	font-size: 14px;
+	font-weight: 400;
+}
+/*添加公众号按钮样式*/
+.adds{
+	width: 120px;
+}
+
+.searchs{
+	width: 70px;
+	height: 35px;
+	line-height: 26px;
+	border-radius: 8px;
+	background: #00CC00;
+	padding: 0 5px;
+	margin-left: 25px;
+}
+/*内容块儿小标题 、边框*/
+.panel-info > .panel-heading {
+    color: #FFFFFF;
+    background-color: #66CCFF;
+    border-color: #66CCFF;
+}
+.panel-info {
+    border-color: #66CCFF;
+}
+.col-lg-1 {
+    width: 12.333%;
+}
+.col-lg-9 {
+    width: 60%;
+}
+.col-md-2 {
+    width: 12.667%;
+}
+/*addssort间隔*/
+.black10{
+	width: auto;
+	height: 10px;
+}
+/*disable样式*/
+.disab{
+	border-color: #66CCFF;
+	background: #E5F1FF;
+}
+/*删除按钮*/
+.delsort{
+	cursor: pointer;
+}
+.finish{
+	margin-left: 130px;
+	margin-top: 20px;
+}
+/*guanzhu提交按钮*/
+.sub{
+	margin-left: 145px;
+	color: white;
+}
+.form-control{
+	width: 80%;
+}
+/*可输入下拉的input样式*/
+.searchable-select {
+	width: 100%;
+}
+.xlss{
+	z-index: 10;
+}
+.input-group {
+	width: 80%
+}
+.searchCont {
+	position: relative;
+	overflow: hidden;
+	width: 80%;
+	height: 35px;
+	line-height: 35px;
+	margin: 8px 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #cccccc;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	background-color: #fff;
+	padding-left: 10px;
+}
+
+.searchCont .search-input {
+	display: block;
+	background: 0 0;
+	width: 78%;
+	height: 30px;
+	line-height: 30px;
+	margin: 3px 0;
+	padding-right: 30px;
+	border: 0;
+	-webkit-box-shadow: 0;
+    box-shadow: 0;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.searchCont .search-btnBox::before {
+	content: '';
+	display: block;
+	position: absolute;
+	border-right: 1px solid #dfdfdf;
+	height: 25px;
+}
+
+.searchCont .search-btnBox {
+	display: block;
+	position: absolute;
+	text-align: center;
+	height: 38px;
+	width: 30%;
+	line-height: 40px;
+	top: 50%;
+	margin-top: -19px;
+	right: 0;
+}
+
+button,
+html input[type="button"],
+input[type="submit"],
+input[type="search"] {
+	-webkit-appearance: none;
+}
+.searchCont .search-btnBox {
+	text-align: center;
+	line-height: 40px;
+}
+
+/*分页样式*/
+.page-css{
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+.page-css a{
+	display: inline-block;
+	float: left;
+	padding: 2px 7px;
+	margin-right: 8px;
+	border: 1px solid #66CCFF;	
+}
+strong{
+	color: #ffffff;
+}

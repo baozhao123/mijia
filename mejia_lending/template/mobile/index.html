@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>首页</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <script src="{MODULE_URL}template/mobile/js/rem.js"></script> 
+    <script src="{MODULE_URL}template/mobile/js/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/slick/slick.css"/>
+<script type="text/javascript">
+	$(window).load(function(){
+		$(".loading").addClass("loader-chanage")
+		$(".loading").fadeOut(300)
+	})
+</script>
+</head>
+<!--loading页开始-->
+<div class="loading">
+	<div class="loader">
+        <div class="loader-inner pacman">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+	</div>
+</div>
+<!--loading页结束-->
+	<body>		
+		<!--header star-->
+		<header class="mui-bar mui-bar-nav" id="header">
+			<a class="btn slide-menu" href="#">
+	            <i class="iconfont icon-iconfontcaidan"></i>
+	        </a>
+	        <div class="top-sch-box flex-col">
+	            <div class="centerflex">
+	                <i class="fdj iconfont icon-sousuo"></i>
+	                <input type="text" name="" id="" value="" class="sch-txt" placeholder="" />
+	            </div>
+	        </div>
+	        <a class="btn" href="#">
+	            <i class="iconfont icon-erweima"></i>
+	        </a>
+	    </header>
+	    <!--header end-->
+	    
+	    <!-- 侧边导航 -->
+		<div class="slide-mask"></div>
+		<aside class="slide-wrapper">
+		  <div>
+		{loop $datad $key $item}
+			<ul>
+			  <li><a href="">{$item['oname']}</a></li>
+			  
+			</ul>
+		{/loop}
+		  </div>
+		</aside>
+	    
+		<div id="main" class="clearfloat warp">			
+		    <div class="mui-content">
+				<!--banner开始-->
+				<div class="banner swiper-container">
+		            <div class="swiper-wrapper">
+		            {loop $dataa $key $item}
+
+		                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="{php echo tomedia($item['pic']);}" alt="" style="height:200px "></a></div>
+
+					{/loop}
+		               
+		            </div>
+		        </div>
+		        <!--banner结束-->
+		        <!--第一栏分类开始-->
+		        <div class="cation clearfloat box-s">
+		        	<ul>
+		        		<li>
+		        			<a href="{php echo $this->createMobileUrl('Index',array('op' => 'ade'))}">
+		        				<img src="{MODULE_URL}template/mobile/img/icons1.png"/>
+		        				<p>产品专区</p>
+		        			</a>
+		        		</li>
+		        		<li>
+		        			<a href="{php echo $this->createMobileUrl('Edu',array('op' => 'display'))}">
+		        				<img src="{MODULE_URL}template/mobile/img/icons2.png"/>
+		        				<p>申请额度</p>
+		        			</a>
+		        		</li>
+		        		<li>
+		        			<a href="{php echo $this->createMobileUrl('Huankuan')}">
+		        				<img src="{MODULE_URL}template/mobile/img/icons3.png"/>
+		        				<p>还款</p>
+		        			</a>
+		        		</li>
+		        		<li>
+		        			<a href="{php echo $this->createMobileUrl('Hetong',array('op' => 'display'))}">
+		        				<img src="{MODULE_URL}template/mobile/img/icons4.png"/>
+		        				<p>合同模板</p>
+		        			</a>
+		        		</li>
+		        	</ul>
+		        </div>
+		        <!--第一栏分类结束-->
+		        <!--滚动公告开始-->
+		        
+		        <div class="notice clearfloat box-s">
+		        	<p class="tit clearfloat fl">公告：</p>
+
+		        	<div class="left fl clearfloat box-s">
+		        	
+						<div class="slider autoplay" style="text-align: center">
+						
+						{loop $data $key $item}
+							<div><a href="{php echo $this->createMobileUrl('Index',array('op' => 'add','gid'=>$item['gid']))}">{$item['title']}</a></div>
+							
+						{/loop}	
+						</div>
+										
+					</div>		
+					<!-- <a href="" class="nmore clearfloat fr">更多</a> -->
+					 
+		        </div>
+		       
+		        <!--滚动公告结束-->
+		        
+		        <!--boutique star-->
+		        <div class="boutique clearfloat box-s">
+		        	<div class="boutit clearfloat">
+		        		<span></span>
+		        		<samp>精品任选</samp>
+		        	</div>
+		        	<div class="content clearfloat">
+		        		<ul>
+		        		{loop $datab $key $item}
+		        			<li>
+		        				<a href="javascript:void(0)">
+		        					<img src="{php echo tomedia($item['pic']);}"/>
+		        				</a>
+		        			</li>
+		        			{/loop}
+		        			
+		        		</ul>
+		        	</div>
+		        </div>
+		        <!--boutique end-->
+		        
+		        <!--seller star-->
+		      <!--   <div class="seller clearfloat">
+		        	<div class="boutit clearfloat">
+		        		<span></span>
+		        		<samp>热推荐</samp>
+		        	</div>
+		        	<div class="content clearfloat">
+		        		<div class="left clearfloat fl">
+		        			<a href="detail.html">
+			        			<div class="top clearfloat box-s">
+			        				<p class="tit over">米家硬件柜</p>
+			        				<span class="over db">米家出品 必属精品</span>
+			        			</div>
+			        			<div class="tu">
+			        				<img src="{MODULE_URL}template/mobile/upload/3.jpg"/>
+			        			</div>
+		        			</a>
+		        		</div>
+		        		<div class="right clearfloat fr">
+		        			<div class="top clearfloat fl">
+		        				<a href="detail.html">
+			        				<div class="zuo clearfloat fl box-s">
+			        					<p class="tit over">IVMC 柜子</p>
+				        				<span class="over db">酒店必须品</span>
+			        				</div>
+			        				<div class="tu clearfloat fr">
+			        					<span></span>
+			        					<img src="{MODULE_URL}template/mobile/upload/4.jpg"/>
+			        				</div>
+		        				</a>
+		        			</div>
+		        			<div class="top clearfloat fl">
+		        				<a href="detail.html">
+			        				<div class="zuo clearfloat fl box-s">
+			        					<p class="tit over">远程维修室</p>
+				        				<span class="over db">解决铁路维修的烦恼</span>
+			        				</div>
+			        				<div class="tu clearfloat fr">
+			        					<span></span>
+			        					<img src="{MODULE_URL}template/mobile/upload/4.jpg"/>
+			        				</div>
+		        				</a>
+		        			</div>
+		        		</div>
+		        	</div>
+		        </div> -->
+		        <!--seller end-->
+		        
+		        <!--onnew star-->
+		        <div class="onnew clearfloat">
+		        	<div class="boutit clearfloat">
+		        		<span></span>
+		        		<samp>每周上新</samp>
+		        	</div>
+
+		        	<div class="content clearfloat">
+		        		<div class="top clearfloat">
+		        		{loop $datac $key $item}
+		        			<div class="list clearfloat fl box-s">
+		        				<a href="detail.html">
+			        				<div class="zuo clearfloat fl box-s">
+			        					<p class="tit over">{$item['title']}</p>
+				        				<span class="over db">{$item['title']}</span>
+			        				</div>
+			        				<div class="tu clearfloat fr">
+			        					<span></span>
+			        					<img src="{php echo tomedia($item['pic']);}"/>
+			        				</div>
+		        				</a>
+		        			</div>
+		        			{/loop}
+		        			<!-- <div class="list clearfloat fl box-s">
+		        				<a href="detail.html">
+			        				<div class="zuo clearfloat fl box-s">
+			        					<p class="tit over">新进小区</p>
+				        				<span class="over db">南京雨花区</span>
+			        				</div>
+			        				<div class="tu clearfloat fr">
+			        					<span></span>
+			        					<img src="{MODULE_URL}template/mobile/upload/6.jpg"/>
+			        				</div>
+		        				</a>
+		        			</div> -->
+		        		</div>
+		        		
+		        	</div>
+		        </div>
+		        <!--onnew end-->
+		        
+		        
+		        
+		      
+	        </div>
+		</div>
+		<!--footer star-->
+		<footer class="page-footer fixed-footer" id="footer">
+			<ul>
+				<li class="active">
+					<a href="{php echo $this->createMobileUrl('Index',array('op' => 'display'))}">
+						<i class="iconfont icon-shouye"></i>
+						<p>首页</p>
+					</a>
+				</li>
+				<li style="margin-left: 50px">
+					<a href="{php echo $this->createMobileUrl('Index',array('op' => 'mmt'))}" class="">
+	                <span><img src="{MODULE_URL}template/mobile/ers/images/about.png"/></span>
+	                <p>关于我们</p>
+            </a>
+				</li>
+				<li style="margin-left: 35px">
+					<a href="{php echo $this->createMobileUrl('Personal',array('op' => 'display'))}">
+						<i class="iconfont icon-yonghuming"></i>
+						<p>个人中心</p>
+					</a>
+				</li>
+			</ul>
+		</footer>
+		<!--footer end-->
+		<script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-1.8.3.min.js" ></script>
+		<script src="{MODULE_URL}template/mobile/js/others.js"></script>
+		<script type="text/javascript" src="{MODULE_URL}template/mobile/js/hmt.js" ></script>
+		<script src="{MODULE_URL}template/mobile/slick/slick.js" type="text/javascript" ></script>
+		<!--插件-->
+		<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/swiper.min.css">
+		<script src="{MODULE_URL}template/mobile/js/swiper.jquery.min.js"></script>
+		<!--新闻资讯滚动-->
+		<script type="text/javascript">
+			$('.autoplay').slick({
+			  slidesToShow: 1,
+			  slidesToScroll: 1,
+			  autoplay: true,
+			  autoplaySpeed: 2000,
+			});
+		</script>
+		
+	</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>紫金借贷</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="{MODULE_URL}template/mobile/ers/assets/i/favicon.png">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/ers/css/amazeui.min.css">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/ers/css/app.css">
+
+	</head>
+	<body style="background: #fff;">
+		<header data-am-widget="header" class="am-header am-header-default dream-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="{MODULE_URL}template/mobile/ers/" class="">合同列表</a>
+            </h1>
+	</header>
+	<div style="height: 49px;"></div>
+	<div id="wrapper">
+	<div id="scroller">
+		<div id="pullDown">
+			<!--<span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>-->
+		</div>	
+	<ul class="new1" id="thelist">
+		{loop $sset $key $item}
+		<li style="margin-top:10px; ">
+		  <a href="javascript:(0)">
+		  <img src="{$item['url']}" />
+		  <p class="newcon-tit">{$item['users']}</p>
+		  <p class="newcon-time">申请时间:{php echo date('Y-m-d H:i:s',$item['hetime'])}</p>
+		  {if $item['hestatus'] == '0'}
+			 <sapn class="newcon-time" style="color:#00EE00">等待审核</sapn>
+		  {else}
+			<p class="newcon-time" style="color: red;">持续的时间:{php echo date('Y-m-d',$item['hetimeq'])}到{php echo date('Y-m-d',$item['hetimez'])}</p>
+		  {/if}
+
+		  </a>
+		</li>
+		{/loop}
+	</ul>
+	</div>
+	</div>
+   <!--底部-->
+ <div data-am-widget="navbar" class="am-navbar  dream-foot"   id="">
+      <ul class="am-navbar-nav am-cf am-avg-sm-4">
+          <li >
+            <a href="{php echo $this->createMobileUrl('Index',array('op' => 'display'))}" class="curr">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/home.png"/></span>
+                <span class="am-navbar-label">首页</span>
+            </a>
+          </li>
+          <li>
+            <a href="{php echo $this->createMobileUrl('Index',array('op' => 'mmt'))}" class="">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/about.png"/></span>
+                <span class="am-navbar-label">关于我们</span>
+            </a>
+          </li>
+          <li >
+            <a href="{php echo $this->createMobileUrl('Personal',array('op' => 'display'))}" class="">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/member.png"/></span>
+                <span class="am-navbar-label">个人中心</span>
+            </a>
+          </li>
+      </ul>
+  </div>
+
+<script src="{MODULE_URL}template/mobile/ers/js/jquery.min.js"></script>
+<script src="{MODULE_URL}template/mobile/ers/js/amazeui.min.js"></script>
+	</body>
+</html>

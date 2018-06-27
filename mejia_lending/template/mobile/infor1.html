@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>紫金借贷</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="{MODULE_URL}template/mobile/ers/assets/i/favicon.png">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/ers/css/amazeui.min.css">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/ers/css/app.css">
+	</head>
+	<body style="background: #fff;">
+		<header data-am-widget="header" class="am-header am-header-default dream-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">个人信息</a>
+            </h1>
+	    </header>
+	    <form action="" enctype ="multipart/form-data"  method="post">
+	     <div style="height: 49px;"></div>
+	    <ul class="infor">
+	    	<li>
+	    		<span>昵 称：</span>
+	    		<input type="text" name="name" value="{$lock['name']}" readonly/>
+	    	</li>
+	    <!-- 	<li>
+	    		<span>性 别：</span>
+	    		<input type="radio" name="1" checked="checked" value="1" data-am-ucheck>男
+	    		<input type="radio" name="2" value="1" data-am-ucheck>女
+	    	</li> -->
+	    	<li>
+	    		<span>年 龄：</span>
+	    		<input type="number" name="site" value="{$mmt['site']}" placeholder=""/>
+	    	</li>
+	    	<li>
+	    		<span>电 话：</span>
+	    		<input type="text" name="phone" value="{$lock['phone']}" readonly/>
+	    	</li>
+	    	<li>
+	    		<span>爱 好：</span>
+	    		<input type="text" name="hao" value="{$mmt['hao']}" />
+	    	</li>
+	    	<li>
+	    		<span>地 址：</span>
+	    		<textarea name="address" cols="" rows="" class="address" >{$mmt['address']}</textarea>
+	    	</li>
+	    	
+	    </ul>
+	    <!--底部-->
+ <div data-am-widget="navbar" class="am-navbar  dream-foot"   id="">
+      <ul class="am-navbar-nav am-cf am-avg-sm-4">
+          <li >
+            <a href="{php echo $this->createMobileUrl('Index')}" class="curr">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/home.png"/></span>
+                <span class="am-navbar-label">首页</span>
+            </a>
+          </li>
+          <li>
+            <a href="{MODULE_URL}template/mobile/about.html" class="">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/about.png"/></span>
+                <span class="am-navbar-label">关于我们</span>
+            </a>
+          </li>
+          <li >
+            <a href="{php echo $this->createMobileUrl('Personal')}" class="">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/member.png"/></span>
+                <span class="am-navbar-label">个人中心</span>
+            </a>
+          </li>
+      </ul>
+</div>
+
+<script src="{MODULE_URL}template/mobile/ers/js/jquery.min.js"></script>
+<script src="{MODULE_URL}template/mobile/ers/js/amazeui.min.js"></script>
+	</body>
+</html>

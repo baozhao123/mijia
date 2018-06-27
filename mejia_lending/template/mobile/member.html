@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>借贷</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="{MODULE_URL}template/mobile/ers/assets/i/favicon.png">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/ers/css/amazeui.min.css">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/ers/css/app.css">
+	</head>
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default dream-head ">
+			<div class="am-header-left am-header-nav">
+				<!--<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>-->
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">个人中心</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+	    <div class="member">
+	    	<div class="mem-tit">{$lock['name']}</div>
+	    	<div class="mem-pic">
+	    		<div class="mem-pic-bg"><img src="{MODULE_URL}template/mobile/ers/images/1.jpg" /></div>
+	    		<div class="men-level">普通会员</div>
+	    	</div>
+	    	<ul class="member-menu">
+	    	<li>
+	    		<a href="{php echo $this->createMobileUrl('Personal',array('op' => 'mmb'))}">
+	    			<p>完善资料</p>
+	    		</a>
+	    	</li>
+	    	<li>
+	    		<a href="{php echo $this->createMobileUrl('Personal',array('op' => 'mmd'))}">
+	    			
+	    			<p>申请评估</p>
+	    		</a>
+	    	</li>
+	    	<li>
+	    		<a href="{php echo $this->createMobileUrl('Hetong',array('op' => 'add'))}">
+	    			
+	    			<p>合同签订</p>
+	    		</a>
+	    	</li>
+	    </ul>
+	    </div>
+	    <ul class="member-list">
+    	<li>
+    		<a href="{php echo $this->createMobileUrl('Personal',array('op' => 'mmc'))}">
+    		<img src="{MODULE_URL}template/mobile/ers/images/icon01.png" />
+    		<span>个人信息</span>
+    		<i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+    	    </a>
+    	</li>
+    	<li>
+    		<a href="{php echo $this->createMobileUrl('Personal',array('op' => 'mme'))}">
+    		<img src="{MODULE_URL}template/mobile/ers/images/icon02.png" />
+    		<span>购买资格</span>
+    		<i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+    	    </a>
+    	</li>
+    	<li>
+    		<a href="{php echo $this->createMobileUrl('Hetong',array('op' => 'edits'))}">
+    		<img src="{MODULE_URL}template/mobile/ers/images/icon03.png" />
+    		<span>我的合同</span>
+    		<i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+    	    </a>
+    	</li>
+    	<li>
+    		<a href="{php echo $this->createMobileUrl('Dingdan',array('op' => 'display'))}">
+    		<img src="{MODULE_URL}template/mobile/ers/images/icon5.png" />
+    		<span>我的订单</span>
+    		<i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+    	    </a>
+    	</li>
+        <li>
+            <a href="{php echo $this->createMobileUrl('Jindu',array('op' => 'display'))}">
+            <img src="{MODULE_URL}template/mobile/ers/images/icon4.png" />
+            <span>资料审批进度</span>
+            <i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+            </a>
+        </li>
+        <li>
+            <a href="{php echo $this->createMobileUrl('Edulist')}">
+            <img src="{MODULE_URL}template/mobile/ers/images/icon6.png" />
+            <span>我申请的额度</span>
+            <i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+            </a>
+        </li>
+        <li>
+            <a href="{php echo $this->createMobileUrl('Huankuan')}">
+            <img src="{MODULE_URL}template/mobile/ers/images/icon7.png" />
+            <span>还  款</span>
+            <i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+            </a>
+        </li>
+    </ul>
+    <!--  <ul class="member-list">
+    	<li>
+    		<a href="{MODULE_URL}template/mobile/ers/collection.html">
+    		<img src="{MODULE_URL}template/mobile/ers/images/icon5.png" />
+    		<span>我的收藏 </span>
+    		<i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+    	    </a>
+    	</li>
+    	<li>
+    		<a href="{MODULE_URL}template/mobile/ers/jifen.html">
+    		<img src="{MODULE_URL}template/mobile/ers/images/icon6.png" />
+    		<span>我的积分</span>
+    		<i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+    	    </a>
+    	</li>
+    	<li>
+    		<a href="{MODULE_URL}template/mobile/ers/money.html">
+    		<img src="{MODULE_URL}template/mobile/ers/images/icon7.png" />
+    		<span>充      值</span>
+    		<i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+    	    </a>
+    	</li>
+    	</ul> -->
+    	<ul class="member-list">
+    	<li>
+    		<a href="{php echo $this->createMobileUrl('Personal',array('op' => 'mma'))}">
+    		<img src="{MODULE_URL}template/mobile/ers/images/icon8.png" />
+    		<span>修改密码</span>
+    		<i class="am-icon-angle-right" style=" float:right; color: #000; "></i>
+    	    </a>
+    	</li>
+    </ul>
+     <div class="jianju"></div>
+    <p><a href="{php echo $this->createMobileUrl('Zhuxiao',array('op' => 'display'))}" class="money-btn">退出登录</a></p>
+    <div style="height: 49px;"></div>
+    
+    <!--底部-->
+ <div data-am-widget="navbar" class="am-navbar  dream-foot"   id="">
+      <ul class="am-navbar-nav am-cf am-avg-sm-4">
+          <li >
+            <a href="{php echo $this->createMobileUrl('Index',array('op' => 'display'))}" class="curr">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/home.png"/></span>
+                <span class="am-navbar-label">首页</span>
+            </a>
+          </li>
+          <li>
+            <a href="{php echo $this->createMobileUrl('Index',array('op' => 'mmt'))}" class="">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/about.png"/></span>
+                <span class="am-navbar-label">关于我们</span>
+            </a>
+          </li>
+          <li >
+            <a href="{php echo $this->createMobileUrl('Personal',array('op' => 'display'))}" class="">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/member.png"/></span>
+                <span class="am-navbar-label">个人中心</span>
+            </a>
+          </li>
+      </ul>
+  </div>
+  
+<script src="{MODULE_URL}template/mobile/ers/js/jquery.min.js"></script>
+<script src="{MODULE_URL}template/mobile/ers/js/amazeui.min.js"></script>
+	</body>
+</html>

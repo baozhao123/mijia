@@ -1,0 +1,205 @@
+{template 'common/header'}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=sM0LiGPo1tLGs7bqh82MSrgKo04ehVYk"></script>
+<ul class="nav nav-tabs">  
+    <div class="container-fluid">
+	    <div class="navbar-header">
+	       <ul id="myTab" class="nav nav-pills" role="tablist">
+			    <li class="active"><a href="#bulletin" role="tab" data-toggle="pill">还款列表</a></li>
+			    <!-- <li><a href="#rule" role="tab" data-toggle="pill">录入项目信息</a></li> -->
+			</ul>
+	    </div>
+    </div>
+</ul>
+<div class="panel panel-default">
+    <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+	    <div class="tab-pane fade in active" id="bulletin">
+			<div class="main">
+	<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" name="form">
+			<input type="hidden" name="c" value="{$_GPC['c']}">
+			<input type="hidden" name="a" value="{$_GPC['a']}">
+			<input type="hidden" name="do" value="{$_GPC['do']}">
+			<input type="hidden" name="m" value="{$_GPC['m']}">
+			<input type="hidden" name="op" value="{$op}">
+			<div class="form-group form-inline">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关键字</label>
+				<div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+					<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="按订单号/手机号/姓名查询"><button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>	
+			</div>
+		</form>
+	</div>
+	<span  class="btn btn-primary radius"><a href="{php echo $this->createWebUrl('Excel')}">导出EXCEL表</a></span>
+</div>
+	    	<table class="table"  id="tables">
+			    <thead>
+			      <tr>
+			      	<th style="text-align: center">姓名</th>
+			      	<th style="text-align: center">电话</th>
+			      	<th style="text-align: center">身份证</th>
+			      	<th style="text-align: center">额度(元)</th>
+			      	<th style="text-align: center">权限</th>
+                    <th style="text-align: center">还款时间</th>
+
+                    <th style="text-align: center">订单号</th>
+                    <th style="text-align: center">方式</th>
+			        <!-- <th style="text-align: center">操作</th> -->
+			      </tr>
+			    </thead>
+			    <tbody>
+			      {loop $row $key $item} 
+			      	<tr>
+			      		<td style="text-align: center">{$item['names']}</td>	
+						<td style="text-align: center">{$item['phone']}</td>
+						<td style="text-align: center">
+						<span class="label label-success">{$item['shenfen']}</span>
+						
+
+
+						</td>
+						<td style="text-align: center"><span class="label label-success">{$item['edums']}.00</span></td>
+						<td style="text-align: center">{$item['oname']}</td>
+						<td style="text-align: center">
+							   {php echo date('Y-m-d H:i:s',$item['hutime'])}
+						</td>
+						<td style="text-align: center"><span class="label label-success">{$item['tid']}</span></td>
+						
+						<td style="text-align: center">
+
+						{$item['type']}
+						</td>
+			      		
+			      	</tr>
+			      {/loop}
+			    </tbody>
+			</table>
+			{$pager}
+	    </div>
+
+</div>
+<script>
+require(['jquery','util'], function($, util){
+	$(function(){
+		var editor = util.editor($('#remark')[0]);
+ 
+		
+	});
+});
+</script>
+<script>
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		$('#form').submit(function(){
+			if($('input[name="oname"]').val() == ''){
+				util.message('请填写商品名称');
+				return false;
+			}
+			if($('input[name="bill"]').val() == ''){
+				util.message('请填写商品价格');
+				return false;
+			}
+			if($('input[name="role"]').val() == ''){
+				util.message('请填写商品简介');
+				return false;
+			}
+			if($('input[name="pico"]').val() == ''){
+				util.message('请选择图片');
+				return false;
+			}
+
+			//  var reg = /^[0-9]*$/;
+			// if(!reg.test($('input[name="inventory"]').val())){
+			// 	util.message('请填写正确的库存');
+			// 	return false;
+			// }
+			
+			// var cost = parseFloat($('input[name="pmoney"]').val());
+			// if(isNaN(cost)){
+			// 	util.message('请填写商品价格.');
+			// 	return false;
+			// }
+			return true;
+		});
+	});
+});
+</script>
+
+
+<script>
+	$("#clid").blur(function(){
+		clid = $("#clid").val();
+		//alert(clid);
+		checkcardText = $("#checkcardText");
+		$.ajax({
+                    type:"get",
+                    data:"clid="+clid,
+                    url:"{php echo $this->createWebUrl('Box',array('op'=>'checkclidtwo'))}",
+                    dataType:'text',
+                    success:function(res){
+						//alert(res);
+						if(res == 1){
+							//alert("开柜成功");
+							checkcardText.html("该编号已经被使用");
+							checkcardText.css("color","red");
+							return false;
+						}else{
+							checkcardText.html("该编号可以使用");
+							checkcardText.css("color","green");
+							return false;
+
+						}
+                    },
+                    error:function(){
+                        alert("error!");
+                    },
+                    complete:function(){
+                        //alert("over");
+                    
+					}
+                })
+
+	
+	})
+
+//检测数据库云柜别号
+$("#clids").blur(function(){
+	clids = $("#clids").val();
+	//alert(clid);
+	checkcardTexts = $("#checkcardTexts");
+	$.ajax({
+                    type:"get",
+                    data:"clids="+clids,
+                    url:"{php echo $this->createWebUrl('Box',array('op'=>'checkclidtwos'))}",
+                    dataType:'text',
+                    success:function(res){
+						//alert(res);
+						if(res == 1){
+							//alert("开柜成功");
+							checkcardTexts.html("该别号已经被使用");
+							checkcardTexts.css("color","red");
+							return false;
+						}else{
+							checkcardTexts.html("该别号可以使用");
+							checkcardTexts.css("color","green");
+							return false;
+
+						}
+                    },
+                    error:function(){
+                        alert("error!");
+                    },
+                    complete:function(){
+                        //alert("over");
+                    
+					}
+                })
+
+	
+	})
+</script>
+{template 'common/footer'}
+

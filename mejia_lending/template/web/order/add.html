@@ -1,0 +1,285 @@
+{template 'common/header'}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=sM0LiGPo1tLGs7bqh82MSrgKo04ehVYk"></script>
+<ul class="nav nav-tabs">  
+    <div class="container-fluid">
+	    <div class="navbar-header">
+	       <ul id="myTab" class="nav nav-pills" role="tablist">
+			    <li class="active"><a href="#bulletin" role="tab" data-toggle="pill">分配列表</a></li>
+			    <li><a href="#rule" role="tab" data-toggle="pill">录入项目信息</a></li>
+			</ul>
+	    </div>
+    </div>
+</ul>
+<div class="panel panel-default">
+    <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+	    <div class="tab-pane fade in active" id="bulletin">
+			<div class="main">
+	<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" name="form">
+			<input type="hidden" name="c" value="{$_GPC['c']}">
+			<input type="hidden" name="a" value="{$_GPC['a']}">
+			<input type="hidden" name="do" value="{$_GPC['do']}">
+			<input type="hidden" name="m" value="{$_GPC['m']}">
+			<input type="hidden" name="op" value="{$op}">
+			<div class="form-group form-inline">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关键字</label>
+				<div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+					<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="按货道号/维修员查询"><button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>	
+			</div>
+		</form>
+	</div>
+</div>
+	    	<table class="table"  id="tables">
+			    <thead>
+			      <tr>
+			      	<th style="text-align: center">序号</th>
+			      	<th style="text-align: center">项目名</th>
+			      	<th style="text-align: center">项目价格</th>
+			      	<th style="text-align: center">持续的时间</th>
+                    <th style="text-align: center">时间</th>
+
+                    <th style="text-align: center">缩略图</th>
+                    <th style="text-align: center">状态</th>
+			        <th style="text-align: center">操作</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      {loop $row $key $item} 
+			      	<tr>
+			      		<td style="text-align: center">{php echo ++$key;}</td>	
+						<td style="text-align: center">{$item['oname']}</td>
+						<td style="text-align: center">{$item['bill']} <i style="color: red">¥</i></td>
+						<td style="text-align: center">{$item['start']}--{$item['end']}</td>
+						<td style="text-align: center">
+							   {php echo date('Y-m-d H:i:s',$item['otime'])}
+						</td>
+
+						
+						<td style="text-align: center">
+
+						<img src=" {php echo tomedia($item['pico']);}" alt="" style="height:30px">
+						</td>
+
+						<td style="text-align: center">
+						{if $item['status']==0}
+						<a href="{php echo $this->createWebUrl('Order', array('op'=>'aba', 'oid'=>$item['oid']));}"><button type="button" class="btn btn-warning">下架</button></a>
+						
+						{else}
+								<a href="{php echo $this->createWebUrl('Order', array('op'=>'abb', 'oid'=>$item['oid']));}"><button type="button" class="btn btn-primary">上架</button></a>
+						{/if}
+						</td>
+
+			      		<td style="text-align: center">
+							<a href="{php echo $this->createWebUrl('Order', array('op'=>'edit', 'oid'=>$item['oid']));}"><button type="button" class="btn btn-success">修改</button></a>
+
+
+			      		<!-- 	<a onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;" href="{php echo $this->createWebUrl('Product', array('op'=>'delete', 'pid'=>$item['pid']));}"><button type="button" class="btn btn-danger">删除</button></a> -->
+			      		</td>
+			      		
+			      	</tr>
+			      {/loop}
+			    </tbody>
+			</table>
+			{$pager}
+	    </div>
+
+
+<!--小区的录入-->
+<div class="tab-pane fade" id="rule">
+<div class="main">
+<form action="" method="post" class="form-horizontal form" id="form">
+<input type="hidden" name="op" value="add">
+<div class="panel panel-default">
+
+	<div class="panel-heading">项目的录入</div>
+		<div class="panel-body">
+
+		<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">商品名称<span style="color:red">*</span></label>
+			<div class="col-xs-12 col-sm-8">
+				<input type="text" name="oname" class="form-control" value="" id="pname" placeholder="请输入商品名称"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">商品价格<span style="color:red">*¥</span></label>
+			<div class="col-xs-12 col-sm-8">
+				<input type="number" name="bill" class="form-control" value="18" id="pmoney" placeholder="请输入商品价格" min="1"/>
+			</div>
+		</div>
+		<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">持续的时间<span style="color:red">*</span></label>
+			<div class="col-xs-12 col-sm-8">
+				{php echo tpl_form_field_daterange('time', array('starttime' => date('Y-m-d', $starttime), 'endtime' => date('Y-m-d', $endtime),));}
+			</div>
+		</div>
+		<div class="form-group">
+            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">缩略图<span style="color:red">*</span></label>
+            <div class="col-sm-8 col-xs-12">
+                {php echo tpl_form_field_image('pico', $info['pico'], '')}
+            </div>
+        </div>
+			
+			<div class="form-group">
+    <label for="introduce" class="col-sm-2 control-label">商品的简介</label>
+        <div class="col-sm-10">
+       <textarea class="form-control" name="role" id="remark" rows="10"></textarea>
+        </div>
+    </div>
+		
+
+	
+
+
+		<!-- <div class="form-group">
+            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">商品简介<span style="color:red">*</span></label>
+            <div class="col-sm-8 col-xs-12">
+                <textarea name="desc" placeholder="用于详细介绍此商品" class="form-control" style="height:100px;"></textarea>
+             </div>
+         </div> -->
+
+
+<div class="form-group">
+	<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+		<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+		<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+</div>
+<div class="form-group">
+    <div class="col-xs-12 col-sm-8">
+		<div id="container" ></div>
+	</div>
+</div>
+</div>
+</div>
+</form>
+</div>
+  </div>
+</div>
+<script>
+require(['jquery','util'], function($, util){
+	$(function(){
+		var editor = util.editor($('#remark')[0]);
+ 
+		
+	});
+});
+</script>
+<script>
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		$('#form').submit(function(){
+			if($('input[name="oname"]').val() == ''){
+				util.message('请填写商品名称');
+				return false;
+			}
+			if($('input[name="bill"]').val() == ''){
+				util.message('请填写商品价格');
+				return false;
+			}
+			if($('input[name="role"]').val() == ''){
+				util.message('请填写商品简介');
+				return false;
+			}
+			if($('input[name="pico"]').val() == ''){
+				util.message('请选择图片');
+				return false;
+			}
+
+			//  var reg = /^[0-9]*$/;
+			// if(!reg.test($('input[name="inventory"]').val())){
+			// 	util.message('请填写正确的库存');
+			// 	return false;
+			// }
+			
+			// var cost = parseFloat($('input[name="pmoney"]').val());
+			// if(isNaN(cost)){
+			// 	util.message('请填写商品价格.');
+			// 	return false;
+			// }
+			return true;
+		});
+	});
+});
+</script>
+
+
+<script>
+	$("#clid").blur(function(){
+		clid = $("#clid").val();
+		//alert(clid);
+		checkcardText = $("#checkcardText");
+		$.ajax({
+                    type:"get",
+                    data:"clid="+clid,
+                    url:"{php echo $this->createWebUrl('Box',array('op'=>'checkclidtwo'))}",
+                    dataType:'text',
+                    success:function(res){
+						//alert(res);
+						if(res == 1){
+							//alert("开柜成功");
+							checkcardText.html("该编号已经被使用");
+							checkcardText.css("color","red");
+							return false;
+						}else{
+							checkcardText.html("该编号可以使用");
+							checkcardText.css("color","green");
+							return false;
+
+						}
+                    },
+                    error:function(){
+                        alert("error!");
+                    },
+                    complete:function(){
+                        //alert("over");
+                    
+					}
+                })
+
+	
+	})
+
+//检测数据库云柜别号
+$("#clids").blur(function(){
+	clids = $("#clids").val();
+	//alert(clid);
+	checkcardTexts = $("#checkcardTexts");
+	$.ajax({
+                    type:"get",
+                    data:"clids="+clids,
+                    url:"{php echo $this->createWebUrl('Box',array('op'=>'checkclidtwos'))}",
+                    dataType:'text',
+                    success:function(res){
+						//alert(res);
+						if(res == 1){
+							//alert("开柜成功");
+							checkcardTexts.html("该别号已经被使用");
+							checkcardTexts.css("color","red");
+							return false;
+						}else{
+							checkcardTexts.html("该别号可以使用");
+							checkcardTexts.css("color","green");
+							return false;
+
+						}
+                    },
+                    error:function(){
+                        alert("error!");
+                    },
+                    complete:function(){
+                        //alert("over");
+                    
+					}
+                })
+
+	
+	})
+</script>
+{template 'common/footer'}
+

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>紫金借贷</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="{MODULE_URL}template/mobile/ers/assets/i/favicon.png">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/ers/css/amazeui.min.css">
+        <link rel="stylesheet" href="{MODULE_URL}template/mobile/ers/css/app.css">
+	</head>
+	<body style="background: #fff;">
+		<header data-am-widget="header" class="am-header am-header-default dream-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">产品专区</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+	{loop $datas $key $its}
+	  
+	    
+	   
+	    	<div>
+				<a href="{php echo $this->createMobileUrl('Goumai',array('op' => 'adfs','oname' => $its['oname'],'oid'=>$its['oid']))}">
+	    		<div class="choice-pic"><img src="{php echo tomedia($its['pico']);}" style="width:50px" /></div>
+	    		<div class="choice-mid">
+	    			<p class="tit">{$its['oname']}</p>
+	    			<p class="biaoqian">{$its['bill']}元</p>
+	    			<p class="time"><img src="{MODULE_URL}template/mobile/ers/images/time.jpg" width="15" height="20"/>日期：{$its['start']}-{$its['end']}</p>
+	    		</div>
+	    		<div class="choice-right">
+	    			<img src="{MODULE_URL}template/mobile/ers/images/start.png" width="35" height="35" />
+	    			<p>南京市</p>
+	    		</div>
+
+				</a>
+	    	</div>
+	 			
+	    		
+	    	
+	    	
+	 {/loop}
+	
+ <!--底部-->
+ <div data-am-widget="navbar" class="am-navbar  dream-foot"   id="">
+      <ul class="am-navbar-nav am-cf am-avg-sm-4">
+          <li >
+            <a href="{php echo $this->createMobileUrl('Index',array('op' => 'display'))}" class="curr">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/home.png"/></span>
+                <span class="am-navbar-label">首页</span>
+            </a>
+          </li>
+          <li>
+            <a href="{MODULE_URL}template/mobile/about.html" class="">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/about.png"/></span>
+                <span class="am-navbar-label">关于我们</span>
+            </a>
+          </li>
+          <li >
+            <a href="{php echo $this->createMobileUrl('Personal',array('op' => 'display'))}" class="">
+                <span><img src="{MODULE_URL}template/mobile/ers/images/member.png"/></span>
+                <span class="am-navbar-label">个人中心</span>
+            </a>
+          </li>
+      </ul>
+  </div>
+
+
+	</body>
+</html>

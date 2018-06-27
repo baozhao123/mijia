@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>会员注册</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+	<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="{MODULE_URL}template/mobile/js/rem.js"></script> 
+    <script src="{MODULE_URL}template/mobile/js/jquery.min.js" type="text/javascript"></script>
+	 <script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-1.4.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/slick/slick.css"/>
+<script type="text/javascript">
+	$(window).load(function(){
+		$(".loading").addClass("loader-chanage")
+		$(".loading").fadeOut(300)
+	})
+</script>
+</head>
+<!--loading页开始-->
+<div class="loading">
+	<div class="loader">
+        <div class="loader-inner pacman">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+	</div>
+</div>
+<!--loading页结束-->
+	<body>
+		<div class="login clearfloat box-s">
+		<form action="" method="post">
+		<input type="hidden" name="op" value="edit">
+		<input type="hidden" name="token" value="{$_W['token']}">
+			<h3>会员注册</h3>
+			<div class="list clearfloat">
+				<ul>
+					<li class="ra3">
+						<p class="fl clearfloat">
+							<span class="opa5"></span>
+							<i class="iconfont icon-yonghuming"></i>
+						</p>
+						<div class="nr clearfloat fl">
+							<span class="opa3"></span>
+							<input type="text" name="name" id="names" value="" placeholder="用户名由数字字母组成" />
+						</div>
+					</li>
+					<li class="ra3">
+						<p class="fl clearfloat">
+							<span class="opa5"></span>
+							<i class="iconfont icon-mima"></i>
+						</p>
+						<div class="nr clearfloat fl">
+							<span class="opa3"></span>
+							<input type="password" name="password" id="pwd" value="" placeholder="密码必须是6-18为的数字字母下划线" />
+						</div>
+					</li>
+					<li class="ra3">
+						<p class="fl clearfloat">
+							<span class="opa5"></span>
+							<i class="iconfont icon-shouji"></i>
+						</p>
+						<div class="nr clearfloat fl">
+							<span class="opa3"></span>
+							<input type="text" name="phone" id="phone" value="" placeholder="手机号码" /><span id="utext"></span>
+						</div>
+					</li>
+					
+					<li class="ra3">
+						<p class="fl clearfloat">
+							<span class="opa5"></span>
+							<i class="iconfont icon-yanzhengma"></i>
+						</p>
+						<div class="nr nrtwo clearfloat fl">
+							<span class="opa3"></span>
+							<input type="text" name="codes" id="dynamicPWD" value="" placeholder="验证码" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div style="text-align: center">
+				<a href="javascript:void(0)" id="ynamicLogon"><button id="code-btn" style="background-color:#7CFC00;width:285px;height: 35px;color: white;font-size: 20px">点击获取验证码</button>
+					
+				</a>
+			</div>
+			<div class="login-btn">
+				<a href="javascript:void(0)" id="ynamicLogon"><input type="submit" name="submit" value="注 册" style="font-size:20px;width:80%">
+					
+				</a>
+			</div>
+			<div class="mima mimaone clearfloat">
+				<ul>
+					<li class="fr">
+						<a href="{php echo $this->createMobileUrl('Login',array('op' => 'display'))}">立即登录</a>
+					</li>
+				</ul>
+			</div>
+			</form>
+		</div>
+	</body>
+ 
+
+        <script>
+        var n = document.getElementById('names');
+        var pwd = document.getElementById('pwd');
+
+        n.onblur = function(){
+			var v = this.value;
+			var reg =/^[a-zA-Z\x{4e00}-\x{9fa5}]{6,20}$/;
+			if(reg.test(v)){
+				return true;
+			}else{
+				alert('用户名格式不正确');
+				return false;		
+			}
+		}
+        //丧失焦点事件
+		pwd.onblur = function(){
+			var v = this.value;
+			var reg = /^\w{6,18}$/;
+			if(reg.test(v)){
+				return true;
+			}else{
+				alert('密码格式不正确');
+				return false;		
+			}
+		}
+
+var code = ""; //接收验证码   
+$('#code-btn').click(function(){
+  var count = 60;
+    var phone=$("#phone").val();//手机号码  
+    var reg_phone = /1\d{10}/;
+    if(!reg_phone.test(phone)){   //验证手机是否符合格式
+        alert("手机号号码格式不正确");
+        return false;
+    } 
+    //开始计时  
+    $("#code-btn").attr('disabled','disabled');  
+    $("#code-btn").html("倒计时" + count + "秒");  
+    var timer = setInterval(function(){  
+      count--;
+      $("#code-btn").html("倒计时" + count + "秒"); 
+      if (count==0) {
+        clearInterval(timer);
+        $("#code-btn").attr("disabled",false);//启用按钮  
+        $("#code-btn").html("重新发送验证码");
+        code = "";//清除验证码。如果不清除，过时间后，输入收到的验证码依然有效 
+      }
+    },1000);
+
+    //向后台发送处理数据 
+     // $.post("{php echo $this->createMobileUrl('Zhuce',array('op' => 'add'))}",{phone:phone
+		   //       },function(data){
+		          
+			  //         if(data==1){
+			  //           alert("短信发送成功");
+			  //         }else if($data == 2) {
+			  //         	alert("短信发送失败,电话号码已经注册！");
+			  //         }else{
+			  //         	alert("短信发送失败");
+			  //         }
+		   //      });
+    $.ajax({  
+        type: "POST", //用POST方式传输  
+        dataType: "text", //数据格式:JSON  
+        url: "{php echo $this->createMobileUrl('Zhuce',array('op' => 'add'))}", //目标地址  
+        data: "phone=" + phone + "&code=" + code,  
+        error: function (data) { 
+        			if(data==1){
+			            alert("短信发送成功");
+			          }else if($data == 2) {
+			          	alert("短信发送失败,电话号码已经注册！");
+			          }else{
+			          	alert("短信发送失败");
+			          }
+
+
+        },  
+        success: function (msg){ }  
+    });
+});  
+
+ // function verify_inputMessage(){
+
+ //        $("#submit").click(function(){
+ //            var name = $(".inut-name").val();
+ //            var phone = $(".inut-phone").val();
+ //            var reg=/^[\u4e00-\u9fa5]{0,}$/;
+
+ //            if(!(reg.exec(name))){
+
+ //               /* alert("用户名错误！");*/
+ //                $(".input-name").after("<div class='error-name'>用户名错误！</div>").after("<div class='dialog'></div>");
+
+ //            }else{
+ //                if( !(/^1[34578]\d{9}$/.test(phone))){ 
+
+ //                 /*   alert("手机号错误！");*/
+ //                    $(".input-phonenum").after("<div class='error-phone'>手机号错误！</div>").after("<div class='dialog'></div>");
+ //                }else{ 
+
+ //                    //跳转到成功的页面
+ //                    location.href = "/hotel/checkTime"; //这里跳转的是路由的路径
+ //                }
+ //            }
+
+ //        });
+</script>
+
+
+</html>

@@ -1,0 +1,187 @@
+{template 'common/header'}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=sM0LiGPo1tLGs7bqh82MSrgKo04ehVYk"></script>
+<ul class="nav nav-tabs">
+    <li {if $op=='display' }class="active" {/if}><a href="{php echo $this->createWebUrl('Recharge',array('op' =>'display'))}">放款列表</a></li>
+   <!--  <li {if $op =='postt' }class="active" {/if}><a href="{php echo $this->createWebUrl('Divide',array('op' =>'postt'))}">分配柜子</a></li> -->
+</ul>
+
+<style>
+	#cover{
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+}
+#cover-bg{
+    width: 100%;
+    height: 100%;
+    background-color: #aaa;
+    opacity: 0.7;
+    -webkit-opacity: 0.7;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cover-content{
+	width: 200px;
+	height: 200px;
+    z-index: 8;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}
+</style>
+
+{if $op == 'display'}
+<div class="main panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="text-align: center">姓名</th>
+					<th style="text-align: center">电话号</th>
+					<th style="text-align: center">身份证号</th>
+					<th style="text-align: center">起始时间</th>
+					<th style="text-align: center">起止时间</th>
+					<th style="text-align: center">放款时间</th>
+					<th style="text-align: center">状态</th>
+					<th style="text-align: center">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $row $list $adv}
+				<tr>
+					<td style="text-align: center">{$adv['users']}</td>
+					<td style="text-align: center">{$adv['phone']}</td>
+					<td style="text-align: center">{$adv['shens']}</td>
+					<td style="text-align: center">
+					<span class="label label-success">{$adv['hetimeq']}</span>
+					</td>
+					<td style="text-align: center"><span class="label label-success">{$adv['hetimez']}</span></td>
+
+
+					<td style="text-align: center">
+					{if $adv['fangkuantime'] == ''}
+					<span class="label label-success">放款中..</span>
+					{else}
+					<span class="label label-success">{php echo date('Y-m-d H:i:s',$adv['fangkuantime'])}</span>
+					
+
+					{/if}
+
+					</td>
+					
+					<td style="text-align: center">
+					{if $adv['fangkuantime'] == ''}
+					<span class="label label-success">放款中..</span>
+					{else}
+
+					<span class="label label-success">已放款</span>
+
+					{/if}
+
+					</td>
+
+					<td style="text-align:left;">
+						<button type="button" class="btn btn-primary" id="cha">点击放款成功</button>
+					</td>
+					
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+<script>
+$(function(){
+    $("#cha").click(function(e){
+        e.preventDefault();
+        $("#cover").css("display","block");
+        $("#cover").animate({
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0"
+        },800);
+        $("#cover-content").animate({
+            width: "300px",
+            height: "300px",
+        },800);
+    });
+    $("#cover-bg").click(function(){
+        $("#cover").removeAttr("style");
+        $("#cover-content").removeAttr("style");
+    });
+});
+</script>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+{elseif $op == 'postt'}
+
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" id="form">
+	
+	<input type="hidden" name="op" value="edits"/>
+		<div class="panel panel-default">
+			<div class="panel-heading">分配柜子</div>
+			<div class="panel-body">
+
+			<div class="form-group">
+						<label class="col-sm-2 control-label" style="font-size:14px;">货道号</label>
+						<div class="col-sm-10">
+							<select class="form-control" style="border:1px solid #b9b9b9" name="oid">
+								<option value="">--选择货道号--</option>
+								{loop $mmt $key $item}
+								  <option value="{$item['oid']}">{$item['clid']}</option>
+								{/loop} 
+							</select>
+						</div>
+					 </div>
+
+			<div class="form-group">
+						<label class="col-sm-2 control-label" style="font-size:14px;">小区名称</label>
+						<div class="col-sm-10">
+							<select class="form-control" style="border:1px solid #b9b9b9" name="did">
+								<option value="">--选择小区--</option>
+								{loop $data $key $item}
+								  <option value="{$item['did']}">{$item['dname']}</option>
+								{/loop} 
+							</select>
+						</div>
+					 </div>
+				<div class="form-group">
+						<label class="col-sm-2 control-label" style="font-size:14px;">售后员</label>
+						<div class="col-sm-10">
+							<select class="form-control" style="border:1px solid #b9b9b9" name="cid">
+								<option value="">--选择售后员--</option>
+								{loop $info $key $item}
+								  <option value="{$item['cid']}">{$item['name']}</option>
+								 {/loop}
+							</select>
+						</div>
+					 </div>
+					
+				<div class="form-group">
+					<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+						<input name="submit" type="submit" value="分配" class="btn btn-primary" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+{/if}
+{template 'common/footer'}

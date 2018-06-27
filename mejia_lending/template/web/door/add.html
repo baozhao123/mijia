@@ -1,0 +1,274 @@
+{template 'common/header'}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=sM0LiGPo1tLGs7bqh82MSrgKo04ehVYk"></script>
+<style>
+	#cover{
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+}
+#cover-bg{
+    width: 100%;
+    height: 100%;
+    background-color: #00FFFF;
+    opacity: 0.7;
+    -webkit-opacity: 0.7;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cover-content{
+    /*background-color: #009900;*/
+    z-index: 8;
+    position: absolute;
+    top: 10%;
+    left: 40%;
+}
+#covers{
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+}
+#cover-bgs{
+    width: 100%;
+    height: 100%;
+    background-color: #00FFFF;
+    opacity: 0.7;
+    -webkit-opacity: 0.7;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cover-contents{
+    /*background-color: #009900;*/
+    z-index: 8;
+    position: absolute;
+    top: 10%;
+    left: 40%;
+}
+</style>
+<ul class="nav nav-tabs">  
+    <div class="container-fluid">
+	    <div class="navbar-header">
+	       <ul id="myTab" class="nav nav-pills" role="tablist">
+			    <li class="active"><a href="#bulletin" role="tab" data-toggle="pill">资格列表</a></li>
+			    <!-- <li><a href="#rule" role="tab" data-toggle="pill">录入信息</a></li> -->
+			</ul>
+	    </div>
+    </div>
+</ul>
+<div class="panel panel-default">
+    <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+	    <div class="tab-pane fade in active" id="bulletin">
+			<div class="main">
+	<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" name="form">
+			<input type="hidden" name="c" value="{$_GPC['c']}">
+			<input type="hidden" name="a" value="{$_GPC['a']}">
+			<input type="hidden" name="do" value="{$_GPC['do']}">
+			<input type="hidden" name="m" value="{$_GPC['m']}">
+			<input type="hidden" name="op" value="{$op}">
+			<div class="form-group form-inline">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">输入</label>
+				<div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+					<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="称号/电话号/订单号查询"><button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>	
+			</div>
+		</form>
+	</div>
+</div>
+	    	<table class="table"  id="tables">
+			    <thead>
+			      <tr>
+			      	<th style="text-align: center">称号</th>
+			      	<th style="text-align: center">电话</th>
+			      	<th style="text-align: center">订单</th>
+                    <th style="text-align: center">购买的时间</th>
+                    <th style="text-align: center">资格</th>
+               		<th style="text-align: center">价钱</th>
+               		<th style="text-align: center">支付类型</th>
+			        <!-- <th style="text-align: center">商品购买</th> -->
+			      </tr>
+			    </thead>
+			    <tbody>
+			      {loop $row $key $item} 
+			      	<tr>
+			      		<td style="text-align: center">{$item['name']}</td>
+			      		<td style="text-align: center">{$item['phone']}</td>
+						<td style="text-align: center">
+							{$item['tid']}
+						</td>
+						<td style="text-align: center">
+							  {php echo date('Y-m-d H:i:s',$item['ztime'])}
+						</td>
+						</td>
+						<td style="text-align: center">{$item['oname']}</td>
+						<td style="text-align: center;color:green">{$item['bill']}元</td>
+						<td style="text-align: center">
+						<?php if($item['type']== ''){ ?>
+						<span style="color:red">订单未支付</span>
+						<?php }else{ ?>
+						
+						<span style="color:#00EE00">{$item['type']}</span>
+						
+						
+						<?php } ?>
+							
+						</td>
+
+
+			      		<div id="cover">
+					    <div id="cover-bg"></div>
+					    <div id="cover-content" style="color:blue;">
+						坐 标:{php echo tpl_form_field_coordinate('baidumap', array('lng'=>$item['lng'], 'lat'=>$item['lat']));}</br>
+				    </div>
+				    </div>
+						<div id="covers">
+					    <div id="cover-bgs"></div>
+					    <div id="cover-contents" style="color:blue;">
+						<form action="" method="post">
+						<input type="hidden" name="op" value="mde">
+						<input type="hidden" name="did" value="{$row['did']}">
+						小 区:<input type="text" value="{$item['dname']}" name="dname" style="width:500px;height:50px;margin-bottom:20px;font-size:20px; "></br>
+						
+						地 址:<input type="text" value="{$item['dor']}" name="dor" style="width:500px;height:50px;margin-bottom:20px;font-size:20px; "></br>
+
+						坐 标:{php echo tpl_form_field_coordinate('baidumap', array('lng'=>$item['lng'], 'lat'=>$item['lat']));}</br>
+						
+						<input type="submit" name="submit" value="提交" style="width:200px;height:30px;margin-bottom:20px;font-size:20px;text-align: center;background-color:#00EE00; ">
+						
+						</form>
+				    </div>
+				    </div>
+
+			      		
+			      	</tr>
+			      {/loop}
+			    </tbody>
+			</table>
+			{$pager}
+	    </div>
+
+
+<!--小区的录入-->
+<div class="tab-pane fade" id="rule">
+<div class="main">
+<form action="" method="post" class="form-horizontal form" id="form">
+<input type="hidden" name="op" value="add">
+<div class="panel panel-default">
+
+	<div class="panel-heading">信息的录入</div>
+		<div class="panel-body">
+
+		<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">小区名称</label>
+			<div class="col-xs-12 col-sm-8">
+				<input type="text" name="dname" class="form-control" value="" id="dname"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">小区地址</label>
+			<div class="col-xs-12 col-sm-8">
+				<input type="text" name="dor" class="form-control" value="" id="dor"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小区地理坐标</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_coordinate('baidumap', $data)}
+			</div>
+		</div>
+
+		
+<div class="form-group">
+	<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+		<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+		<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+</div>
+<div class="form-group">
+    <div class="col-xs-12 col-sm-8">
+		<div id="container" ></div>
+	</div>
+</div>
+</div>
+</div>
+</form>
+</div>
+  </div>
+</div>
+<script>
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		$('#form').submit(function(){
+			if($('input[name="dname"]').val() == ''){
+				util.message('请填写小区名称');
+				return false;
+			}
+
+			if($('input[name="dor"]').val() == ''){
+				util.message('请填写小区地址.');
+				return false;
+			}
+			return true;
+		});
+	});
+});
+</script>
+
+<script>
+$(function(){
+    $("#cha").click(function(e){
+        e.preventDefault();
+        $("#cover").css("display","block");
+        $("#cover").animate({
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0"
+        },800);
+        $("#cover-content").animate({
+            width: "300px",
+            height: "300px",
+        },800);
+    });
+    $("#cover-bg").click(function(){
+        $("#cover").removeAttr("style");
+        $("#cover-content").removeAttr("style");
+    });
+});
+$(function(){
+    $("#chas").click(function(e){
+        e.preventDefault();
+        $("#covers").css("display","block");
+        $("#covers").animate({
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0"
+        },800);
+        $("#cover-contents").animate({
+            width: "300px",
+            height: "300px",
+        },800);
+    });
+    $("#cover-bgs").click(function(){
+        $("#covers").removeAttr("style");
+        $("#cover-contents").removeAttr("style");
+    });
+});
+</script>
+
+{template 'common/footer'}
+

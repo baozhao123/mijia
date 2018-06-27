@@ -1,0 +1,170 @@
+{template 'common/header'}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=sM0LiGPo1tLGs7bqh82MSrgKo04ehVYk"></script>
+<style>
+	#cover{
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+}
+#cover-bg{
+    width: 100%;
+    height: 100%;
+    background-color: #aaa;
+    opacity: 0.7;
+    -webkit-opacity: 0.7;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cover-content{
+    /*background-color: #009900;*/
+    z-index: 8;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+}
+
+</style>
+<ul class="nav nav-tabs">  
+    <div class="container-fluid">
+	    <div class="navbar-header">
+	       <ul id="myTab" class="nav nav-pills" role="tablist">
+			    <li class="active"><a href="#bulletin" role="tab" data-toggle="pill">我的额度</a></li>
+			    <!-- <li><a href="#rule" role="tab" data-toggle="pill">录入商品信息</a></li> -->
+			</ul>
+	    </div>
+    </div>
+</ul>
+<a class="btn" href="javascript:history.go(-1)">
+	            <i class="iconfont icon-fanhui" style="font-size: 20px;"> 返 回</i>
+	        </a>
+	        <a class="btn" href="{php echo $this->createMobileUrl('Personal',array('op' => 'display'))}">
+	            <i class="iconfont icon-fanhui" style="font-size: 20px;margin-left:140px; ">个人中心</i>
+	        </a>
+<div class="panel panel-default">
+    <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+	    <div class="tab-pane fade in active" id="bulletin">
+			<div class="main">
+	<div class="panel panel-info">
+	
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" name="form">
+			<input type="hidden" name="c" value="{$_GPC['c']}">
+			<input type="hidden" name="a" value="{$_GPC['a']}">
+			<input type="hidden" name="do" value="{$_GPC['do']}">
+			<input type="hidden" name="m" value="{$_GPC['m']}">
+			<input type="hidden" name="op" value="{$op}">
+			<div class="form-group form-inline">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关键字</label>
+				<div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+					<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="按电话号查询"><button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>	
+			</div>
+		</form>
+	</div>
+</div>
+	    	<table class="table"  id="tables">
+			    <thead>
+			      <tr>
+			      	<th style="text-align: center">姓名</th>
+			      <!-- 	<th style="text-align: center">申请时间</th> -->
+                    <th style="text-align: center">额度</th>
+                    <th style="text-align: center">状态</th>
+                    <th style="text-align: center">还款时间</th>
+                     <th style="text-align: center">操作</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      {loop $row $key $item} 
+			      	<tr>
+						<td style="text-align: center">{$item['users']}</td>
+						<!-- <td style="text-align: center">{php echo date('Y-m-d H:i:s',$item['hetime'])}</td> -->
+						<td style="text-align: center"><i style="color: red">¥</i>{$item['edus']}</td>
+					
+						<td style="text-align: center">
+						{if $item['hestatus']=='0'}
+							<span class="label label-success">审核中</span>
+						{else}
+							<span style="color: red;">审核成功</span>
+						{/if}
+
+						</td>
+						<td style="text-align: center">{php echo date('Y-m-d',$item['hetimez'])}<span class="label label-success"></span></td>
+			      		<td style="text-align: center">
+							<a href=""><button type="button" class="btn btn-info" id="cha">查看详情</button></a>
+			      		</td>
+			      		
+
+			      		<div id="cover">
+					    <div id="cover-bg"></div>
+					    <div id="cover-content" style="color:blue;">
+						<form action="">
+						昵 称：<input type="text" value="{$item['users']}" ></br>
+						电话号：<input type="text" value="{$item['phone']}"></br>
+						额 度：<input type="text" value="{$item['edus']}"></br>
+						申请时间：<input type="text" value="{php echo date('Y-m-d H:i:s',$item['hetime'])}"></br>
+						{if $item['hestatus']=='0'}
+							<span class="label label-success">审核中</span></br>
+						{else}
+							持续时间：<input type="text" value="{php echo date('Y-m-d',$item['hetimeq'])}到{php echo date('Y-m-d',$item['hetimez'])}"></br>
+						{/if}
+
+						{if $item['hetimez']== ''}
+							<span class="label label-success">审核中</span></br>
+						{else}
+							还款时间：<input type="text" value="{php echo date('Y-m-d',$item['hetimez'])}" readonly></br>
+						{/if}
+						
+						
+						
+    					
+						
+						</form>
+
+
+
+				    </div>
+				    </div>
+			      		
+			      	</tr>
+			      {/loop}
+			    </tbody>
+			</table>
+			{$pager}
+	    </div>
+
+
+</div>
+
+
+
+
+<script>
+$(function(){
+    $("#cha").click(function(e){
+        e.preventDefault();
+        $("#cover").css("display","block");
+        $("#cover").animate({
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0"
+        },800);
+        $("#cover-content").animate({
+            width: "300px",
+            height: "300px",
+        },800);
+    });
+    $("#cover-bg").click(function(){
+        $("#cover").removeAttr("style");
+        $("#cover-content").removeAttr("style");
+    });
+});
+</script>
+{template 'common/footer'}
+

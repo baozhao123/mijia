@@ -1,0 +1,185 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op == 'display'} class="active"{/if}>催还列表</li>
+</ul>
+<style>
+	.label{line-height: 2}
+	.danger{position: relative}
+</style>
+<style>
+	#cover{
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+}
+#cover-bg{
+    width: 100%;
+    height: 100%;
+    background-color: #00FFFF;
+    opacity: 0.7;
+    -webkit-opacity: 0.7;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cover-content{
+    /*background-color: #009900;*/
+    z-index: 8;
+    position: absolute;
+    top: 10%;
+    left: 40%;
+}
+
+</style>
+{if $op == 'display'}
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="" method="get" class="form-horizontal" role="form" id="form">
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">催还时间</label>
+				<div class="col-sm-8 col-xs-12">
+					<div class="btn-group">
+						
+						<a href="{php echo filter_url('hetimez:-1');}" class="btn {if $hetimez == -1}btn-primary{else}btn-default{/if}">所有</a>
+						<a href="{php echo filter_url('hetimez:1')}" class="btn {if $hetimez == strtotime(date('Y-m-d'))-172800}btn-primary{else}btn-default{/if}">前天</a>
+						<a href="{php echo filter_url('hetimez:2');}" class="btn {if $hetimez == strtotime(date('Y-m-d'))-86400}btn-primary{else}btn-default{/if}">昨天</a>
+						<a href="{php echo filter_url('hetimez:0');}" class="btn {if $hetimez == strtotime(date('Y-m-d'))}btn-primary{else}btn-default{/if}">今天</a>
+						<a href="{php echo filter_url('hetimez:3');}" class="btn {if $hetimez == strtotime(date('Y-m-d'))+86400}btn-primary{else}btn-default{/if}">明天</a>
+						<a href="{php echo filter_url('hetimez:4');}" class="btn {if $hetimez == strtotime(date('Y-m-d'))+172800}btn-primary{else}btn-default{/if}">后天</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+				<div class="col-sm-8 col-xs-12">
+					<div class="btn-group">
+						
+						<a href="{php echo filter_url('tatus:-1');}" class="btn {if $tatus == '-1'}btn-primary{else}btn-default{/if}">不限</a>
+						<a href="{php echo filter_url('tatus:1');}" class="btn {if $tatus == 1}btn-primary{else}btn-default{/if}">已付款</a>
+						<a href="{php echo filter_url('tatus:0');}" class="btn {if $tatus == 0}btn-primary{else}btn-default{/if}">未付款</a>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名/手机号</label>
+				<div class="col-sm-8 col-xs-12">
+					<input type="text" class="form-control" name="keyword" value="{$_GPC['keyword']}" />
+				</div>
+				<div class="pull-right col-xs-12 col-sm-3 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-body table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="text-align: center">姓名</th>
+				<th style="text-align: center">手机号</th>
+				<th style="text-align: center">身份证</th>
+				<th style="text-align: center">申请额度(元)</th>
+				<th style="text-align: center">到期时间</th>
+				<th style="text-align: center">状态</th>
+				<th style="text-align: center" class="text-right">操作</th>
+			</tr>
+		</thead>
+		{loop $res $key $row}
+			<tr>
+				<td style="text-align: center">
+					{$row['users']}
+					
+				</td>
+				<td style="text-align: center">	
+							{$row['phone']}
+		
+				</td>
+				<td style="text-align: center">	
+							{$row['shens']}
+		
+				</td>
+				<td style="text-align: center">	
+							<span class="label label-success">{$row['edu']}.00</span>
+		
+				</td>	
+				<td style="text-align: center">{php echo date('Y-m-d',$row['hetimez'])}</td>
+
+				<td style="text-align: center">
+					<?php if($row['tatus']== 0){ ?>
+						<span class="label label-success">未还款</span>
+						<?php }else{ ?>
+						<span class="label label-success">已还款</span>
+						
+						
+						<?php } ?>
+				</td>
+				<td class="text-right">
+					<a href="{php echo $this->createWebUrl('Overtime', array('op'=>'edit', 'edid'=>$row['edid'],'phone'=>$row['phone']));}"><button type="button" class="btn btn-success">点击催款</button></a>
+				
+				</td>
+
+				<div id="cover">
+					    <div id="cover-bg"></div>
+					    <div id="cover-content" style="color:blue;">
+						<form action="" method="post">
+						<input type="hidden" name="op" value="mde">
+						<input type="hidden" name="adid" value="{$row['adid']}">
+						姓 名:<input type="text" value="{$row['name']}" name="name" disabled="disabled" style="width:500px;height:50px;margin-bottom:20px;font-size:20px; "></br>
+						
+						电 话:<input type="text" value="" name="phone" style="width:500px;height:50px;margin-bottom:20px;font-size:20px; "></br>
+						
+						<input type="submit" name="submit" value="完善" style="width:200px;height:50px;margin-bottom:20px;font-size:20px;text-align: center;background-color:#00EE00; ">
+						
+						</form>
+
+
+
+				    </div>
+				    </div>
+			      		
+			</tr>
+		{/loop}
+	</table>
+</div>
+</div>
+{$pager}
+
+
+
+
+
+	
+	
+<script>
+$(function(){
+    $("#cha").click(function(e){
+        e.preventDefault();
+        $("#cover").css("display","block");
+        $("#cover").animate({
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0"
+        },800);
+        $("#cover-content").animate({
+            width: "300px",
+            height: "300px",
+        },800);
+    });
+    $("#cover-bg").click(function(){
+        $("#cover").removeAttr("style");
+        $("#cover-content").removeAttr("style");
+    });
+});
+</script>
+
+
+{/if}
