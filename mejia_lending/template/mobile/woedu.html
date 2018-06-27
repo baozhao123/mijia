@@ -94,7 +94,14 @@
 						{/if}
 
 						</td>
-						<td style="text-align: center">{php echo date('Y-m-d',$item['hetimez'])}<span class="label label-success"></span></td>
+						<td style="text-align: center">
+						{if $item['hetimez']== ''}
+							<span class="label label-success">审核中</span>
+						{else}
+							<span style="color: red;">{php echo date('Y-m-d',$item['hetimez'])}<span class="label label-success"></span></span>
+						{/if}
+
+						</td>
 			      		<td style="text-align: center">
 							<a href=""><button type="button" class="btn btn-info" id="cha">查看详情</button></a>
 			      		</td>

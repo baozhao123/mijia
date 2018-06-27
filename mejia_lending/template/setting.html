@@ -3,7 +3,7 @@
 
   <li {if $op == 'display'} class="active" {/if}><a href="{php echo $this->createWebUrl('Product',array('op' =>'display'))}">参数设置</a></li>
   <li{if $op == 'yanzheng'} class="active" {/if}><a href="{php echo $this->createWebUrl('Product',array('op' =>'yanzheng'))}">短信验证</a></li>
-  <li{if $op == 'xinxi'} class="active" {/if}><a href="{php echo $this->createWebUrl('Product',array('op' =>'xinxi'))}">OPID设置</a></li>
+  <!-- <li{if $op == 'xinxi'} class="active" {/if}><a href="{php echo $this->createWebUrl('Product',array('op' =>'xinxi'))}">OPID设置</a></li> -->
 </ul>
 {if $op == 'display'}
 <div class="panel panel-info">
@@ -11,54 +11,6 @@
   <div class="panel-body">
     
 <form action="" method="post">
-  <!-- <div class="form-group">
-    <label class="col-sm-2 control-label" for="title">活动名称</label>
-     <div class="col-sm-10">
-    <input type="text" class="form-control" name="title" value="{$data['name']}">
-    </div>
-  </div> -->
-
-<!--    <div class="form-group">
-    <label class="col-sm-2 control-label" for="password">兑换密码</label>
-     <div class="col-sm-10">
-    <input type="text" class="form-control" name="password" value="{$data['password']}">
-     </div>
-  </div> -->
-  
-   <!-- <div class="form-group">
-    <label class="col-sm-2 control-label">分享图标设置</label>
-    <div class="col-sm-10">
-      {php echo tpl_form_field_image('shareicon',$data['shareicon'],'',$thumb)}
-    </div>
-    </div> -->
-    
-     <!-- <div class="form-group">
-    <label class="col-sm-2 control-label" for="sharetitle">分享标题</label>
-     <div class="col-sm-10">
-    <input type="text" class="form-control" name="sharetitle" value="{$data['sharetitle']}">
-    </div>
-  </div>
-  
-   <div class="form-group">
-    <label class="col-sm-2 control-label" for="sharecontent">分享文本</label>
-     <div class="col-sm-10">
-    <input type="text" class="form-control" name="sharecontent" value="{$data['sharecontent']}">
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <label class="col-sm-2 control-label">顶部logo图片</label>
-    <div class="col-sm-10">
-      {php echo tpl_form_field_image('logo',$data['logo'],'',$options)}
-    </div>
-    </div>
-  
-  <div class="form-group">
-    <label class="col-sm-2 control-label">分享页广告图片</label>
-    <div class="col-sm-10">
-      {php echo tpl_form_field_image('adimg',$data['ad'],'',$options)}
-    </div>
-    </div> -->
 
 <div class="form-group">
     <label class="col-sm-2 control-label" for="gz">是否引导关注</label>
@@ -136,86 +88,7 @@ require(['jquery', 'util'], function($, util){
 
 {elseif $op == 'xinxi'}
 
-<div class="main">
-  <form action="" method="post" class="form-horizontal form" id="form">
-    <div class="panel panel-default">
-      <div class="panel-heading">微信提示信息设置</div>
-      <div class="panel-body">
-        <div class="form-group">
-          <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">appkey</label>
-          <div class="col-xs-12 col-sm-8">
-            <input type="text" name="demoney" class="form-control" value="{$lock['demoney']}" />
-            <p class="font_13px_999" style="color:red"></p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">等等</label>
-          <div class="col-xs-12 col-sm-8">
-            <input type="text" name="moneyone" class="form-control" value="{$lock['moneyone']}" />
-            <p class="font_13px_999" style="color:red">可填小数，最多2位小数。例：0.01</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">充值金额选项二</label>
-          <div class="col-xs-12 col-sm-8">
-            <input type="text" name="moneytwo" class="form-control" value="{$lock['moneytwo']}" />
-            <p class="font_13px_999" style="color:red">可填小数，最多2位小数。例：0.01</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">充值金额选项三</label>
-          <div class="col-xs-12 col-sm-8">
-            <input type="text" name="moneythree" class="form-control" value="{$lock['moneythree']}" />
-            <p class="font_13px_999" style="color:red">可填小数，最多2位小数。例：0.01</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">充值金额选项四</label>
-          <div class="col-xs-12 col-sm-8">
-            <input type="text" name="moneyfour" class="form-control" value="{$lock['moneyfour']}" />
-            <p class="font_13px_999" style="color:red">可填小数，最多2位小数。例：0.01</p>
-          </div>
-        </div>
 
-        <div class="form-group">
-          <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">清柜天数</label>
-          <div class="col-xs-12 col-sm-8">
-            <input id="text_" type="text" name="day" class="form-control" value="{$lock['day']}" onblur="searchByStationName();"/>
-            <p class="font_13px_999" style="color:red">不可填小数</p>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">1小时内收费标准</label>
-          <div class="col-xs-12 col-sm-8">
-            <input id="text_" type="text" name="moneysmall" class="form-control" value="{$lock['moneysmall']}" onblur="searchByStationName();"/>
-            <p class="font_13px_999" style="color:red">可填小数，最多2位小数。例：0.01</p>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">超出1小时收费标准</label>
-          <div class="col-xs-12 col-sm-8">
-            <input id="text_" type="text" name="moneybig" class="form-control" value="{$lock['moneybig']}" onblur="searchByStationName();"/>
-            <p class="font_13px_999" style="color:red">可填小数，最多2位小数。例：0.01</p>
-          </div>
-        </div>
-
-
-
-
-        <div class="form-group">
-          <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
-            <input name="submit" type="submit" value="提交" class="btn btn-primary" />
-            <input type="hidden" name="token" value="{$_W['token']}" />
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-  </form>
-</div>
 <script>
 require(['jquery', 'util'], function($, util){
   $(function(){

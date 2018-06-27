@@ -132,15 +132,47 @@
 		       
 		        <!--滚动公告结束-->
 		        
-		        <!--boutique star-->
-		        <div class="boutique clearfloat box-s">
+		        <div class="onnew clearfloat">
 		        	<div class="boutit clearfloat">
 		        		<span></span>
 		        		<samp>精品任选</samp>
 		        	</div>
 		        	<div class="content clearfloat">
+		        		<div class="top clearfloat">
+
+		        			
+		        		<div class="bottom clearfloat">
+
+							{loop $datab $key $item}
+		        			<div class="list clearfloat fl">
+		        				<a href="javascript:void(0)">
+		        					<!-- <div class="shang clearfloat fl box-s">
+			        					<p class="tit over">一起玩耍</p>
+				        				<span class="over db">一款贱贱的ted熊</span>
+			        				</div> -->
+			        				<div class="tu clearfloat fr">
+			        					<span></span>
+			        					<img src="{php echo tomedia($item['pic']);}"/>
+			        				</div>
+		        				</a>
+		        			</div>
+							{/loop}
+		        			
+
+		        		</div>
+		        	</div>
+		        </div>
+
+		       
+
+		         <div class="boutique clearfloat box-s">
+		        	<div class="boutit clearfloat">
+		        		<span></span>
+		        		<samp>每周上新</samp>
+		        	</div>
+		        	<div class="content clearfloat">
 		        		<ul>
-		        		{loop $datab $key $item}
+		        		{loop $datac $key $item}
 		        			<li>
 		        				<a href="javascript:void(0)">
 		        					<img src="{php echo tomedia($item['pic']);}"/>
@@ -151,101 +183,7 @@
 		        		</ul>
 		        	</div>
 		        </div>
-		        <!--boutique end-->
-		        
-		        <!--seller star-->
-		      <!--   <div class="seller clearfloat">
-		        	<div class="boutit clearfloat">
-		        		<span></span>
-		        		<samp>热推荐</samp>
-		        	</div>
-		        	<div class="content clearfloat">
-		        		<div class="left clearfloat fl">
-		        			<a href="detail.html">
-			        			<div class="top clearfloat box-s">
-			        				<p class="tit over">米家硬件柜</p>
-			        				<span class="over db">米家出品 必属精品</span>
-			        			</div>
-			        			<div class="tu">
-			        				<img src="{MODULE_URL}template/mobile/upload/3.jpg"/>
-			        			</div>
-		        			</a>
-		        		</div>
-		        		<div class="right clearfloat fr">
-		        			<div class="top clearfloat fl">
-		        				<a href="detail.html">
-			        				<div class="zuo clearfloat fl box-s">
-			        					<p class="tit over">IVMC 柜子</p>
-				        				<span class="over db">酒店必须品</span>
-			        				</div>
-			        				<div class="tu clearfloat fr">
-			        					<span></span>
-			        					<img src="{MODULE_URL}template/mobile/upload/4.jpg"/>
-			        				</div>
-		        				</a>
-		        			</div>
-		        			<div class="top clearfloat fl">
-		        				<a href="detail.html">
-			        				<div class="zuo clearfloat fl box-s">
-			        					<p class="tit over">远程维修室</p>
-				        				<span class="over db">解决铁路维修的烦恼</span>
-			        				</div>
-			        				<div class="tu clearfloat fr">
-			        					<span></span>
-			        					<img src="{MODULE_URL}template/mobile/upload/4.jpg"/>
-			        				</div>
-		        				</a>
-		        			</div>
-		        		</div>
-		        	</div>
-		        </div> -->
-		        <!--seller end-->
-		        
-		        <!--onnew star-->
-		        <div class="onnew clearfloat">
-		        	<div class="boutit clearfloat">
-		        		<span></span>
-		        		<samp>每周上新</samp>
-		        	</div>
 
-		        	<div class="content clearfloat">
-		        		<div class="top clearfloat">
-		        		{loop $datac $key $item}
-		        			<div class="list clearfloat fl box-s">
-		        				<a href="detail.html">
-			        				<div class="zuo clearfloat fl box-s">
-			        					<p class="tit over">{$item['title']}</p>
-				        				<span class="over db">{$item['title']}</span>
-			        				</div>
-			        				<div class="tu clearfloat fr">
-			        					<span></span>
-			        					<img src="{php echo tomedia($item['pic']);}"/>
-			        				</div>
-		        				</a>
-		        			</div>
-		        			{/loop}
-		        			<!-- <div class="list clearfloat fl box-s">
-		        				<a href="detail.html">
-			        				<div class="zuo clearfloat fl box-s">
-			        					<p class="tit over">新进小区</p>
-				        				<span class="over db">南京雨花区</span>
-			        				</div>
-			        				<div class="tu clearfloat fr">
-			        					<span></span>
-			        					<img src="{MODULE_URL}template/mobile/upload/6.jpg"/>
-			        				</div>
-		        				</a>
-		        			</div> -->
-		        		</div>
-		        		
-		        	</div>
-		        </div>
-		        <!--onnew end-->
-		        
-		        
-		        
-		      
-	        </div>
 		</div>
 		<!--footer star-->
 		<footer class="page-footer fixed-footer" id="footer">

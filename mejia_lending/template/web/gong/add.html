@@ -96,7 +96,10 @@
 							  {php echo date('Y-m-d H:i:s',$item['gtime'])}
 						</td>
 						<td style="text-align: center">
+
 							<a href=""><button type="button" class="btn btn-info" id="cha">查看</button></a>
+
+							<a href="{php echo $this->createWebUrl('Gong', array('op'=>'dele', 'gid'=>$item['gid']));}"><button type="button" class="btn btn-danger">删除</button></a>
 						</td>
 						<div id="cover">
 					    <div id="cover-bg"></div>

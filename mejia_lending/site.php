@@ -547,61 +547,43 @@ class Mejia_lendingModuleSite extends WeModuleSite {
 				$phone=$_GPC['phone'];
 				$lock = pdo_fetch("SELECT * FROM".tablename('mijia_lending_admin')." WHERE `uniacid`=:uniacid and `name`=:name",array(':uniacid' => $_W['uniacid'],':name'=>$name));
 
-				$mmt=pdo_fetch("SELECT * FROM".tablename('mijia_lending_admins')." WHERE `uniacid`=:uniacid and `phone`=:phone
-					",array(':uniacid' => $_W['uniacid'],':phone'=>$phone));
+				if(checksubmit()){
 
-				if(checksubmit()){ 
+					if(empty($_GPC['site'])){
 
-					$aid=$_GPC['aid'];
-					$lock = pdo_fetch("SELECT * FROM".tablename('mijia_lending_admins')." WHERE `uniacid`=:uniacid and `aid`=:aid",array(':uniacid' => $_W['uniacid'],':aid'=>$aid));
+						message("年龄不能为空");die;
+						
+					}
+					if(empty($_GPC['hao'])){
+
+						message("爱好不能为空");die;
+						
+					}
+					if(empty($_GPC['address'])){
+
+						message("地址不能为空");die;
+						
+					}
 
 
-
-					if($lock){
-						$data['user']=$_GPC['user'];
-						$data['name']=$_GPC['name'];
 						$data['site']=$_GPC['site'];
-						$data['phone']=$_GPC['phone'];
-						$data['qq']=$_GPC['qq'];
 						$data['hao']=$_GPC['hao'];
 						$data['address']=$_GPC['address'];
-						$data['uniacid']=$_W['uniacid'];
-						$data['stime']=$_W['timestamp'];
-
-						$res=pdo_update('mijia_lending_admins',$data,array('aid'=>$_GPC['aid']));
+						$res=pdo_update('mijia_lending_admin',$data,array('aid'=>$_GPC['aid']));
 
 						if($res){
-							message("资料修改成功!");die;
+							message("资料修改成功!",$this->createMobileUrl('Personal',array('op'=>'mmc')),"success");die;
 						}else{
 							message("资料修改失败!");die;
 						}
 
-					}else{
-					$data['aid']=$_GPC['aid'];
-					$data['user']=$_GPC['user'];
-					$data['name']=$_GPC['name'];
-					$data['site']=$_GPC['site'];
-					$data['phone']=$_GPC['phone'];
-					$data['qq']=$_GPC['qq'];
-					$data['hao']=$_GPC['hao'];
-					$data['address']=$_GPC['address'];
-					$data['uniacid']=$_W['uniacid'];
-					$data['stime']=$_W['timestamp'];
-
-
-					$info=pdo_insert('mijia_lending_admins',$data);
-						if($info){
-
-					 	message("资料完善成功!");die;
-
-					}else{
-						message("资料完善失败!");die;
-					}
+					
+					
 					}
 
 					
 
-				}
+				
 
 
 
@@ -617,8 +599,6 @@ class Mejia_lendingModuleSite extends WeModuleSite {
 				$name=$_GPC['name'];
 				$phone=$_GPC['phone'];
 				$lock=pdo_fetch("SELECT * FROM".tablename('mijia_lending_admin')." WHERE `uniacid`=:uniacid and `name`=:name",array(':uniacid' => $_W['uniacid'],':name'=>$name));
-
-				$mmt=pdo_fetch("SELECT * FROM".tablename('mijia_lending_admins')." WHERE `uniacid`=:uniacid and `phone`=:phone",array(':uniacid' => $_W['uniacid'],':phone'=>$phone));
 
 				include $this->template('infor1');
 			}
@@ -749,9 +729,10 @@ class Mejia_lendingModuleSite extends WeModuleSite {
 						$data['pic2']=$_FILES["pic2"]["name"];
 						$data['pic']=$_FILES["file0"]["name"];
 						$data['shen']=$_GPC['shen'];
-						$data['uniacid']=$_W['uniacid'];
 						$data['shtime']=$_W['timestamp'];
 						$data['status']=0;
+						$data['uniacid']=$_W['uniacid'];
+
 						
 						$info=pdo_insert('mijia_lending_admins',$data);
 							if($info){
@@ -1087,81 +1068,96 @@ class Mejia_lendingModuleSite extends WeModuleSite {
 			if($op=='display'){
 				$phone=$_GPC['phone'];
 				$mmt=pdo_fetch("SELECT * FROM".tablename('mijia_lending_admins')." WHERE `uniacid`=:uniacid and `phone`=:phone",array(':uniacid' => $_W['uniacid'],':phone'=>$phone));
-				$data=$mmt['status'];
 
-				if($data==0){
-					// 跳转到进度页面。
+				if($mmt){
+						$data=$mmt['status'];
 
-					message("提交的资料还在评估当中！是否要加速审核！",$this->createMobileUrl('Jindu'),"success");
-				}else{
+						if($data==0){
+							// 跳转到进度页面。
 
-					if(checksubmit()){
-						load()->func('tpl');
-
-						$edu=$_GPC['edu'];
-						if(empty($edu)){
-
-							message("额度不能为空！");
-
-						}
-						if($edu < 18 ){
-
-							message("额度小于18元！处于极度亏损状态！请重新填写。");
-						}
-						$shijian=$_GPC['shijian'];
-
-						$mmt=pdo_fetch("SELECT * FROM".tablename('mijia_lending_zige')." WHERE `uniacid`=:uniacid and `phone`=:phone and `fees`=:fees",array(':uniacid' => $_W['uniacid'],':phone'=>$phone,':fees'=>$shijian));
-
-						if($mmt){
-
-							$user_data = array(
-							    'phone' => $_GPC['phone'],
-							    'status' => '0',
-							    'sid'	=>$_GPC['sid'],
-							    'edu'	=>$_GPC['edu'],
-							    'shijian'=>$_GPC['shijian'],
-							    'edtime' =>$_W['timestamp'],
-							    'uniacid'=>$_W['uniacid'],
-							    'oid'	 =>$_GPC['oid'],
-							    'tatus'  =>'0',
-							);
-
-							$info=pdo_insert('mijia_lending_edu',$user_data);
-
-							if(!empty($info)){
-    							$uid = pdo_insertid();
-
-    							// var_dump($uid);exit;
-   									$sset=pdo_fetch("SELECT * FROM".tablename('mijia_lending_edu')." WHERE `uniacid`=:uniacid and `phone`=:phone and `edid`=:edid",array(':uniacid' => $_W['uniacid'],':phone'=>$phone,':edid'=>$uid));	
-										
-								message("下一步",$this->createMobileUrl('hetong'),"success");
-
-							}
-							
+							message("提交的资料还在评估当中！是否要加速审核！",$this->createMobileUrl('Jindu'),"success");
 						}else{
 
-							message("额度{$shijian}天天数还没有购买权限！请确定权限");
+							if(checksubmit()){
+
+							$phone=$_GPC['phone'];
+
+
+
+								load()->func('tpl');
+
+								$edu=$_GPC['edu'];
+								if(empty($edu)){
+
+									message("额度不能为空！");
+
+								}
+								if($edu < 18 ){
+
+									message("额度小于18元！处于极度亏损状态！请重新填写。");
+								}
+								$shijian=$_GPC['shijian'];
+
+								$mmt=pdo_fetch("SELECT * FROM".tablename('mijia_lending_zige')." WHERE `uniacid`=:uniacid and `phone`=:phone and `fees`=:fees",array(':uniacid' => $_W['uniacid'],':phone'=>$phone,':fees'=>$shijian));
+
+								if($mmt){
+
+									$user_data = array(
+									    'phone' => $_GPC['phone'],
+									    'status' => '0',
+									    'sid'	=>$_GPC['sid'],
+									    'edu'	=>$_GPC['edu'],
+									    'shijian'=>$_GPC['shijian'],
+									    'edtime' =>$_W['timestamp'],
+									    'uniacid'=>$_W['uniacid'],
+									    'oid'	 =>$_GPC['oid'],
+									    'tatus'  =>'0',
+									);
+
+									$info=pdo_insert('mijia_lending_edu',$user_data);
+
+									if(!empty($info)){
+		    							$uid = pdo_insertid();
+
+		    							// var_dump($uid);exit;
+		   									$sset=pdo_fetch("SELECT * FROM".tablename('mijia_lending_edu')." WHERE `uniacid`=:uniacid and `phone`=:phone and `edid`=:edid",array(':uniacid' => $_W['uniacid'],':phone'=>$phone,':edid'=>$uid));	
+												
+										message("下一步",$this->createMobileUrl('hetong'),"success");
+
+									}
+									
+								}else{
+
+									message("额度{$shijian}天天数还没有购买权限！请确定权限");
+								}
+
+
+
+							}
+
+						$sset=pdo_fetch("SELECT * FROM".tablename('mijia_lending_edu')."as e ,".tablename('mijia_lending_admins')."as a WHERE e.`uniacid`=:uniacid and e.`phone`=:phone and e.`status`=:status and e.sid=a.sid",array(':uniacid' => $_W['uniacid'],':phone'=>$phone,':status'=>0));
+
+						if($sset){
+
+							message("你好！只能同时申请一份额度，等审批通过在申请下一份！谢谢。。");
+						}else{
+
+							include $this->template('edu');	
 						}
 
 
 
-					}
+							
 
-				$sset=pdo_fetch("SELECT * FROM".tablename('mijia_lending_edu')."as e ,".tablename('mijia_lending_admins')."as a WHERE e.`uniacid`=:uniacid and e.`phone`=:phone and e.`status`=:status and e.sid=a.sid",array(':uniacid' => $_W['uniacid'],':phone'=>$phone,':status'=>0));
+						}
 
-				if($sset){
 
-					message("你好！只能同时申请一份额度，等审批通过在申请下一份！谢谢。。");
 				}else{
 
-					include $this->template('edu');	
-				}
-
-
-
-					
+					message("还没有提交审核资料，请去提交！",$this->createMobileUrl('Personal',array('op'=>'mmd')),"success");
 
 				}
+				
 
 			}
 	}
@@ -1667,7 +1663,7 @@ class Mejia_lendingModuleSite extends WeModuleSite {
 	// 公告管理
 	public function doWebGong(){
 			global $_W,$_GPC;
-			$ops = array('display','add','edit','insert'); 
+			$ops = array('display','add','edit','insert','dele'); 
 			$op = in_array($_GPC['op'], $ops) ? $_GPC['op'] : 'display';
 
 			if($op=='display'){
@@ -1735,6 +1731,19 @@ class Mejia_lendingModuleSite extends WeModuleSite {
 					message("添加失败",$this->createWebUrl('Gong'),"error");
 				}
 			}
+		if($op=='dele'){
+			$gid=$_GPC['gid'];
+
+			// var_dump($gid);exit;
+
+			$data=pdo_delete('mijia_lending_gong',array('gid' => $_GPC['gid'],'uniacid' => $_W['uniacid']));
+
+			if($data){
+
+				message("删除成功",$this->createWebUrl('Gong'),"success");
+			}
+		}
+
 			
 	}
 
@@ -1980,8 +1989,8 @@ class Mejia_lendingModuleSite extends WeModuleSite {
 			        ':status'  => 1
  			    	));
 
-				if($total == 2){
-					message("启用失败！最多启用2张图片",$this->createWebUrl('Templetlist'),"error");
+				if($total == 6){
+					message("启用失败！最多启用6张图片",$this->createWebUrl('Templetlist'),"error");
 				}
 				$res=pdo_update('mijia_lending_templetlist1',array('status'=>1),array('tid'=>$_GPC['tid']));
 
@@ -2003,8 +2012,8 @@ class Mejia_lendingModuleSite extends WeModuleSite {
 			        ':status'  => 1
  			    	));
 
-				if($total == 2){
-					message("启用失败！最多启用2张图片",$this->createWebUrl('Templetlist'),"error");
+				if($total == 1){
+					message("启用失败！最多启用1张图片",$this->createWebUrl('Templetlist'),"error");
 				}
 				$res=pdo_update('mijia_lending_templetlist2',array('status'=>1),array('tid'=>$_GPC['tid']));
 
